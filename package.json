@@ -1,0 +1,41 @@
+{
+  "name": "moi-app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "tosv": "vite build && build.bat"
+  },
+  "dependencies": {
+    "@vuelidate/core": "^2.0.0",
+    "@vuelidate/validators": "^2.0.0",
+    "@vuepic/vue-datepicker": "^3.5.2",
+    "apexcharts": "^3.26.1",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
+    "bootstrap-table": "^1.18.2",
+    "jquery": "^3.5.1",
+    "maska": "^1.5.0",
+    "moment": "^2.29.1",
+    "nprogress": "^0.2.0",
+    "popper.js": "^1.16.1",
+    "secure-ls": "^1.2.6",
+    "uniqid": "^5.4.0",
+    "vue": "^3.2.37",
+    "vue-next-select": "^2.6.0",
+    "vue-router": "^4.0.3",
+    "vue-sweetalert2": "^4.2.0",
+    "vue3-apexcharts": "^1.3.0",
+    "vue3-datepicker": "^0.2.4",
+    "vue3-datepicker-lite": "^1.8.6",
+    "vuex": "^4.0.0",
+    "vuex-persistedstate": "^4.0.0-beta.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.2.0",
+    "sass": "^1.55.0",
+    "vite": "^3.2.0",
+    "vite-plugin-compression": "^0.5.1"
+  }
+}
