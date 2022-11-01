@@ -59,7 +59,6 @@
             ><span class="detail">{{ job.job_phone }}</span>
           </div>
         </div>
-
         <div class="form-row">
           <div class="col-12 col-md-6">
             <span class="title">วันที่แจ้งปัญหา:</span
