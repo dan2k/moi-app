@@ -64,8 +64,8 @@
           </div>
           <div class="form-row" >
             <div class="col-12 text-center">
-              <button v-if="sectid==='0'" type="submit" class="btn btn-primary my-1 mx-1">บันทึก</button>
-              <button v-if="sectid==='0'" type="button" class="btn btn-secondary my-1 mx-1" @click="reset">
+              <button v-if="sectid==='0' || (sectid==job.section_id && isSpecial)" type="submit" class="btn btn-primary my-1 mx-1">บันทึก</button>
+              <button v-if="sectid==='0' || (sectid==job.section_id && isSpecial)" type="button" class="btn btn-secondary my-1 mx-1" @click="reset">
                 ยกเลิก
               </button>
               <button
@@ -109,7 +109,7 @@ import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useFollowup } from "../inform/followup/followup";
 
-const { padL } = useFollowup();
+const { padL,checkSpecialUser,getJobDetail } = useFollowup();
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
@@ -121,6 +121,8 @@ const repair = ref({});
 const detail = ref(null);
 const repairdate = ref(new Date());
 const installdate = ref(new Date());
+const job = ref({});
+const isSpecial=ref(false);
 const rules = {
   detail: { required: helpers.withMessage("ห้ามเป็นค่าว่าง", required) },
   repairdate: { required: helpers.withMessage("ห้ามเป็นค่าว่าง", required) },
@@ -148,7 +150,14 @@ const getRepairDetail = async (docno) => {
     errAlert(err);
   }
 };
-
+const getJobId= async (docno)=>{
+  try{
+    let rs= await api.get(`/inform/v2/getJobId/${docno}`);
+    return rs.data.jobid;
+  }catch(err){
+    errAlert(err)
+  }
+};
 const submit = async () => {
   v.value.$touch();
   if (v.value.$error) return;
@@ -188,7 +197,11 @@ const reset = () => {
     );
   
 };
+
 onMounted(async () => {
   await getRepairDetail(route.params.docno);
+  let jobid=await getJobId(route.params.docno);
+  job.value=await getJobDetail(jobid)
+  isSpecial.value=await checkSpecialUser(job.value.cust_user)
 });
 </script>

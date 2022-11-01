@@ -138,7 +138,7 @@
           comment
         </button>
         <button
-          v-if="job.job_status != 1"
+          v-if="job.job_status != 1 && (job.job_receive_region==sectid || (job.section_id==sectid && isSpecial)  || sectid==0)"
           class="btn btn-secondary my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/close` })
@@ -148,14 +148,14 @@
         </button>
 
         <button
-          v-if="placetype == 'R' && job.job_status == 0"
+          v-if="placetype == 'R' && job.job_status == 0 && job.job_receive_region==sectid"
           class="btn btn-warning my-1 mr-1"
           @click="sendCenter"
         >
           ปรึกษาส่วนกลาง
         </button>
         <button
-          v-if="placetype == 'R' && job.job_status == 4"
+          v-if="placetype == 'R' && job.job_status == 4 && job.job_receive_region==sectid"
           class="btn btn-warning my-1 mr-1"
           @click="
             $router.replace({
@@ -167,14 +167,14 @@
         </button>
 
         <button
-          v-if="placetype != 'R' && job.job_status == 5"
+          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && job.job_status == 5"
           class="btn btn-primary my-1 mr-1"
           @click="check"
         >
           รอตรวจสอบ
         </button>
         <button
-          v-if="placetype != 'R' && job.job_status == 3"
+          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && job.job_status == 3"
           class="btn btn-primary my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/summarize` })
@@ -183,7 +183,7 @@
           สรุปผล
         </button>
         <button
-          v-if="placetype != 'R' && job.job_status!=4"
+          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && job.job_status!=4"
           class="btn btn-warning my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/sendback` })
@@ -192,7 +192,7 @@
           ส่งกลับตรวจสอบเพิ่มเติม
         </button>
         <button
-          v-if="placetype != 'R' && Number(job.isRepair)==0 && [6,7].includes(Number(job.job_status))"
+          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && Number(job.isRepair)==0 && [6,7].includes(Number(job.job_status))"
           class="btn btn-info my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/receiverepair` })
@@ -210,13 +210,13 @@
           แจ้งซ่อมซ้ำ
         </button> -->
         <button
-          v-if="placetype != 'R'  && [6,7].includes(Number(job.job_status))"
+          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id))  && [6,7].includes(Number(job.job_status))"
           class="btn btn-success my-1 mr-1"
         >
           แก้ไขข้อมูล
         </button>
         <button
-          v-if="placetype != 'R' && [2].includes(Number(job.job_status))"
+          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && [2].includes(Number(job.job_status))"
           class="btn btn-success my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/testprogram` })
@@ -243,6 +243,6 @@
 </style>
 <script setup>
 import {useFollowupDetail} from "./followup-detail"
-const {placetype,comments,job,pics,init,sendCenter,check,open} =useFollowupDetail()
+const {placetype,comments,job,pics,sectid,isSpecial,sendCenter,check,open} =useFollowupDetail()
 
 </script>

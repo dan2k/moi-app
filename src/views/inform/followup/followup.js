@@ -11,6 +11,14 @@ export const useFollowup = () => {
       errAlert(err);
     }
   };
+  const checkSpecialUser= async (custuser)=>{
+    try{
+      let rs = await api.get(`/inform/v2/checkSpecialUser/${custuser}`);
+      return rs.data.isSpecial;
+    }catch(err){
+      errAlert(err);
+    }
+  }
   const getPic = async (jobid) => {
     try {
       let rs = await api.get(`/inform/v2/getJobPic/${jobid}`);
@@ -116,6 +124,7 @@ export const useFollowup = () => {
   return {
     auth,
     getJobDetail,
+    checkSpecialUser,
     getPic,
     getCustptype,
     getProvince,

@@ -3,14 +3,16 @@ import { api, okAlert,confAlert } from "@/helper";
 import { useRoute } from "vue-router";
 import { useFollowup } from "./followup";
 export const useFollowupDetail = () => {
-  const { auth, getJobDetail, getPic, open, getComment, getCommentPic } =    useFollowup();
+  const { auth, getJobDetail,checkSpecialUser, getPic, open, getComment, getCommentPic } =    useFollowup();
   const route = useRoute();
   const empid = auth.emp_id;
   const placetype = auth.place_type;
+  const sectid = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
   const comments = ref([]);
   const commentObj = ref([]);
   const job = ref({});
   const pics = ref([]);
+  const isSpecial=ref(false);
 
   const sendCenter = async () => {
     let rs=await confAlert('คุณต้องการส่งปัญหาปรึกษาส่วนกลางหรือไม่')
@@ -55,6 +57,7 @@ export const useFollowupDetail = () => {
       );
       return ob;
     });
+    isSpecial.value=await checkSpecialUser(job.value.cust_user)
   };
   onMounted(async () => {
     await init();
@@ -64,6 +67,8 @@ export const useFollowupDetail = () => {
     comments,
     job,
     pics,
+    sectid,
+    isSpecial,
     init,
     sendCenter,
     check,
