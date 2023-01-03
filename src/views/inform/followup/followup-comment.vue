@@ -28,11 +28,8 @@
             <button class="btn btn-secondary mr-1" type="reset" @click="reset">ยกเลิก</button>
             <button
               class="btn btn-secondary mr-1"
-              @click="
-                $router.replace({
-                  path: `/inform/followup/${$route.params.jobid}/detail`,
-                })
-              "
+              type="reset"
+              @click="back"
             >
               ย้อนกลับ
             </button>
@@ -96,6 +93,11 @@ const reset=()=>{
   detail.value=null;
   files.value.length = 0;
   v.value.$reset();
+}
+const back=()=>{
+  reset();
+  router.replace({path: `/inform/followup/${route.params.jobid}/detail`,})
+
 }
 onMounted(async () => {});
 </script>
