@@ -15,6 +15,7 @@ export const useFollowupNewJob = () => {
     open,
     padL,
     getCustpcode,
+    getCustpcode2,
     getAppGroup,
     getSub1,
     getSub2,
@@ -128,7 +129,7 @@ export const useFollowupNewJob = () => {
     appsub3s.value.length = 0;
   };
   const changeProvince = async (opt) => {
-    custpcodes.value = await getCustpcode(custptype.value, opt);
+    custpcodes.value = await getCustpcode2(custptype.value, opt);
     custpcode.value = null;
     appgid.value = null;
     appgroups.value.length = 0;

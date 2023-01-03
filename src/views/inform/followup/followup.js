@@ -56,6 +56,16 @@ export const useFollowup = () => {
       errAlert(err);
     }
   };
+  const getCustpcode2 = async (custptype,pv) => {
+    console.log(pv)
+    try {
+      let rs = await api.get(`/inform/v2/getCustpcode2/${custptype}/${pv}`);
+      return rs.data.data;
+      // console.log(custpcodes.value);
+    } catch (err) {
+      errAlert(err);
+    }
+  };
   const getAppGroup = async (user) => {
     try {
       let rs = await api.get(`/inform/v2/getAppGroup/${user}`);
@@ -129,6 +139,7 @@ export const useFollowup = () => {
     getCustptype,
     getProvince,
     getCustpcode,
+    getCustpcode2,
     getAppGroup,
     getSub1,
     getSub2,
