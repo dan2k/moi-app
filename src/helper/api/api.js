@@ -2,7 +2,8 @@ import axios from "axios";
 import store from "@/store/index.js";
 
 const obj = axios.create({
-	baseURL: "https://www.controldata.co.th/mpsicc/moi-app/server/api",
+	// baseURL: "https://www.controldata.co.th/mpsicc/moi-app/server/api",
+	baseURL: import.meta.env.VITE_AXIOS_BASE_URL,
 	timeout: 10000,
 	params: {}, // do not remove this, its added to add params later in the config
 });
