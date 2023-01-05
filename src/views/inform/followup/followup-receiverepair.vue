@@ -56,7 +56,7 @@ const choice=ref(null)
 const choices=ref([
   {label:'ไม่บันทึก CSV NO',value:0},
   {label:'บันทึก CSV NO',value:1},
-  {label:'บันทึกระบบส่งซ่อมโปรแกรม',value:2},
+  {label:'บันทึกระบบส่งซ่อมโปรแกรม(หน่วยงานภายนอก เช่น แม่ฟ้าหลวง ฯลฯ)',value:2},
 ])
 
 const rules = computed(function () {

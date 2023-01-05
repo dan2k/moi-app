@@ -113,6 +113,11 @@ const routes = [
 				component: () => import("../views/inform/followup/followup-receiverepair.vue"),
 			},
 			{
+				path:":jobid/editdata",
+				name:"followup-editdata",
+				component: () => import("../views/inform/followup/followup-editdata.vue"),
+			},
+			{
 				path:":jobid/testprogram",
 				name:"followup-testprogram",
 				component: () => import("../views/inform/followup/followup-testprogram.vue"),

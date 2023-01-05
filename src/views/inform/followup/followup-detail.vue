@@ -26,7 +26,7 @@
           </div>
           <div class="col-12 col-md-6">
             <span class="title">หน่วยงาน:</span
-            ><span class="detail">{{ `${job.cust_pdesc}` }}</span>
+            ><span class="detail">{{ `${job.cust_pcode}:${job.cust_pdesc}` }}</span>
           </div>
         </div>
         <div class="form-row">
@@ -212,6 +212,9 @@
         <button
           v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id))  && [6,7].includes(Number(job.job_status))"
           class="btn btn-success my-1 mr-1"
+          @click="
+            $router.replace({ path: `/inform/followup/${$route.params.jobid}/editdata` })
+          "
         >
           แก้ไขข้อมูล
         </button>
