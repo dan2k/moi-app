@@ -67,7 +67,10 @@
           @on-select="select"
           @on-un-select="unSelect"
           @on-load-success="loadSuccess"
-          style="font-family: 'Sarabun', sans-serif; font-size: 14px"
+          style="
+          font-family: Sarabun, sans-serif; 
+          font-size: 14px;
+          "
         >
           <template v-slot:action="actionProps">
             <div v-if="actionProps.field == 'action'" class="text-success">
@@ -80,7 +83,7 @@
             </div>
             <div
               :class="{ desc: actionProps.field == 'job_desc' }"
-              v-if="actionProps.field !== 'action'"
+              v-if="actionProps.field !== 'action' && actionProps.field !== 'important_flag'"
               :style="{
                 color: state.status.filter(
                   (it, i) => Number(it.status) === Number(actionProps.row['job_status'])
@@ -88,6 +91,19 @@
               }"
             >
               {{ actionProps.row[actionProps.field] }}
+            </div>
+            <div
+              :class="{ desc: actionProps.field == 'job_desc' }"
+              v-if="actionProps.field === 'important_flag'"
+              
+            >
+              <div class="containerx" v-if="actionProps.row[actionProps.field]==1">
+                <div class="red flame"></div>
+                <div class="orange flame"></div>
+                <div class="yellow flame"></div>
+                <div class="white flame"></div>
+              </div>
+              <div  v-if="actionProps.row[actionProps.field]==0">-</div>
             </div>
           </template>
         </v-table>
@@ -226,8 +242,19 @@ export default {
     const auth = store.getters["auth/getAuthData"].user[0];
     let section = "";
     section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
-    const url = ref(`/inform/v2/getData/${section}`);
+    // const url = ref(`/inform/v2/getData/${section}`);
+    const url = ref(`/inform/v3/getData`);
     const columns = ref([
+      {
+        label: "เร่งด่วน",
+        name: "important_flag",
+        formatter: true,
+        balign: "center",
+        halign: "center",
+        bvalign: "left",
+        hvalign: "middle",
+        width: "5%",
+      },
       {
         label: "วันเวลา",
         name: "job_add_datetime",
@@ -313,6 +340,7 @@ export default {
         hvalign: "middle",
         width: "5%",
       },
+      
     ]);
 
     const edit = (r) => {
@@ -344,7 +372,8 @@ export default {
     };
     const getDataAll = async () => {
       try {
-        let res = await api.post(`/inform/v2/getDataAll/${section}`, {
+        // let res = await api.post(`/inform/v2/getDataAll/${section}`, {
+        let res = await api.post(`/inform/v3/getDataAll`, {
           filters: table.value.getFilter(),
         });
         state.status.forEach((ob, i) => {
@@ -411,5 +440,92 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     */
+}
+.containerx{
+  margin:20px auto;
+  width: 30px;
+  height: 10px;
+  position:relative;
+  transform-origin:center bottom;
+  animation-name: flicker;
+  animation-duration:3ms;
+  animation-delay:200ms;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.flame{
+  bottom:0;
+  position:absolute;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-top-left-radius: 50%;
+  transform:rotate(-45deg) scale(1.5,1.5);
+}
+
+.yellow{
+  left:15px; 
+  width: 5px;
+  height: 5px;
+  background:gold;
+  box-shadow: 0px 0px 9px 4px gold;
+}
+
+.orange{
+  left:10px; 
+  width: 15px;
+  height: 15px;
+  background:orange;
+  box-shadow: 0px 0px 9px 4px orange;
+}
+
+.red{
+  left:5px;
+  width: 20px;
+  height: 20px;
+  background:OrangeRed;
+  box-shadow: 0px 0px 5px 4px OrangeRed;
+}
+
+.white{
+  left:15px; 
+  bottom:-4px;
+  width: 5px;
+  height: 5px;
+  background:white;
+  box-shadow: 0px 0px 9px 4px white;
+}
+
+/* .circle{
+  border-radius: 50%;
+  position:absolute;  
+} */
+
+/* .blue{
+  width: 10px;
+  height: 10px;
+  left:25px;
+  bottom:-25px; 
+  background: SlateBlue;
+  box-shadow: 0px 0px 15px 10px SlateBlue;
+} */
+
+/* .black{
+  width: 40px;
+  height: 40px;
+  left:10px;
+  bottom:-60px;  
+  background: black;
+  box-shadow: 0px 0px 15px 10px black;
+} */
+
+@keyframes flicker{
+  0%   {transform: rotate(-1deg);}
+  20%  {transform: rotate(1deg);}
+  40%  {transform: rotate(-1deg);}
+  60%  {transform: rotate(1deg) scaleY(1.04);}
+  80%  {transform: rotate(-2deg) scaleY(0.92);}
+  100% {transform: rotate(1deg);}
 }
 </style>
