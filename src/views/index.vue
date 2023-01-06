@@ -23,7 +23,7 @@ export default {
 		let isloading = ref(true);
 		onMounted(() => {
 			setTimeout(() => {
-				router.push({ path: "/main/", replace: true });
+				router.push({ path: "/inform/followup", replace: true });
 			}, 500);
 		});
 		return { isloading };
