@@ -28,7 +28,7 @@
 						<span class="ml-3">รับแจ้ง</span>
 					</a>
 					<ul class="collapse list-unstyled" id="inform">
-						<li
+						<!-- <li
 							:class="{
 								active: $route.path.includes(
 									'/jobremain'
@@ -39,7 +39,7 @@
 								<i class="fas fa-circle-notch"></i>
 								<span class="ml-3">งานค้าง</span>
 							</router-link>
-						</li>
+						</li> -->
 						<li
 							:class="{
 								active: $route.path.includes(

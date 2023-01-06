@@ -55,6 +55,18 @@ const routes = [
 		path: `/inform/logbook`,
 		name: "logbook",
 		component: () => import("../views/inform/logbook/index.vue"),
+		children: [
+			{
+				path:"",
+				name:"logbook-list",
+				component: () => import("../views/inform/logbook/logbook-list.vue"),
+			},
+			{
+				path:":jobid",
+				name:"logbook-detail",
+				component: () => import("../views/inform/logbook/logbook-detail.vue"),
+			},
+		],
 		beforeEnter: beforeEnter,
 	},
 	{
