@@ -183,7 +183,7 @@
           สรุปผล
         </button>
         <button
-          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && job.job_status!=4"
+          v-if="(placetype != 'R' && ![4,0,99].includes(Number(job.job_status))) || (isSpecial && sectid==job.section_id) && ![4,0,99].includes(Number(job.job_status)) "
           class="btn btn-warning my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/sendback` })
