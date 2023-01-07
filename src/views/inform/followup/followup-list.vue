@@ -31,22 +31,36 @@
             </span>
           </div>
         </div>
-        <button
-          class="btn btn-primary mx-2 my-2 float-right"
-          @click="
-            table.changePage(1);
-            table.getData();
-            getDataAll();
-          "
-        >
-          <i class="fas fa-sync-alt"></i>
-        </button>
-        <button
-          class="btn btn-primary mx-2 my-2 float-right"
-          @click="$router.replace({ path: `/inform/followup/newjob` })"
-        >
-          <i class="fas fa-plus-circle"></i>
-        </button>
+        <div class="col-12">
+          <button
+            class="btn btn-primary mr-1 my-2 float-right"
+            @click="
+              isAll=!isAll;
+              u=isAll?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
+              table.setUrl(u)
+              table.getData();
+              table.changePage(1);
+              "
+          >
+            {{ isAll?'งานที่รับผิดชอบ':'งานทั้งหมด' }}
+          </button>
+          <button
+            class="btn btn-primary mr-1 my-2 float-right"
+            @click="
+              table.changePage(1);
+              table.getData();
+              getDataAll();
+            "
+          >
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <button
+            class="btn btn-primary mr-1 my-2 float-right"
+            @click="$router.replace({ path: `/inform/followup/newjob` })"
+          >
+            <i class="fas fa-plus-circle"></i>
+          </button>
+        </div>
       </div>
       <div>
         <v-table
@@ -67,10 +81,7 @@
           @on-select="select"
           @on-un-select="unSelect"
           @on-load-success="loadSuccess"
-          style="
-          font-family: Sarabun, sans-serif; 
-          font-size: 14px;
-          "
+          style="font-family: Sarabun, sans-serif; font-size: 14px;"
         >
           <template v-slot:action="actionProps">
             <div v-if="actionProps.field == 'action'" class="text-success">
@@ -114,7 +125,7 @@
 </template>
 
 <script>
-import { reactive, onMounted, ref } from "vue";
+import { reactive, onMounted, ref ,watch} from "vue";
 import VTable from "@/components/table/table.vue";
 import { useStore } from "vuex";
 import { api, errAlert, okAlert } from "@/helper";
@@ -225,6 +236,7 @@ export default {
       if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
         document.getElementById("ainform").click();
       }
+      console.log(table.value)
     });
     const setActive = async (status) => {
       state.status.map((it, i) => {
@@ -241,9 +253,18 @@ export default {
     const store = useStore();
     const auth = store.getters["auth/getAuthData"].user[0];
     let section = "";
+    let isAll=ref(true);
     section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
     // const url = ref(`/inform/v2/getData/${section}`);
     const url = ref(`/inform/v3/getData`);
+    // watch([isAll],(newVal)=>{
+
+    //   let u=isAll.value?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
+    //   url.value=u;
+    //   console.log(u)
+    //   table.getData();
+    //   table.changePage(1);
+    // });
     const columns = ref([
       {
         label: "เร่งด่วน",
@@ -372,8 +393,9 @@ export default {
     };
     const getDataAll = async () => {
       try {
+        let u=isAll.value?`/inform/v3/getDataAll`:`/inform/v2/getDataAll/${section}`;
         // let res = await api.post(`/inform/v2/getDataAll/${section}`, {
-        let res = await api.post(`/inform/v3/getDataAll`, {
+        let res = await api.post(u, {
           filters: table.value.getFilter(),
         });
         state.status.forEach((ob, i) => {
@@ -425,6 +447,8 @@ export default {
       unSelect,
       loadSuccess,
       url,
+      isAll,
+      section,
     };
   },
 };

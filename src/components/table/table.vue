@@ -361,6 +361,7 @@ export default {
 			search,
 			txtSearch,
 			isLoading,
+			setUrl,
 		} = useTable(props, emit);
 
 		onMounted(async () => {
@@ -424,6 +425,7 @@ export default {
 			objStyle,
 			objWrapper,
 			isLoading,
+			setUrl,
 		};
 	},
 };

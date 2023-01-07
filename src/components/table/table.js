@@ -20,6 +20,10 @@ export function useTable(props, emit) {
 		txtSearch: "",
 		isLoading: false,
 	});
+	const setUrl=(u)=>{
+		store.url=u
+		
+	}
 	const setFilter = (k, opt, v) => {
 		let co = store.filters.reduce((c, it) => {
 			return it.name == k ? c + 1 : c + 0;
@@ -48,7 +52,7 @@ export function useTable(props, emit) {
 					let ob = { name: it.name, order: it.order };
 					return ob;
 				});
-
+			// console.log(store.url)
 			await api
 				.post(`${store.url}`, {
 					page: store.page - 1,
@@ -254,6 +258,7 @@ export function useTable(props, emit) {
 		clickRow,
 		changePage,
 		search,
+		setUrl,
 		...toRefs(store),
 	};
 }
