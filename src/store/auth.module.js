@@ -5,6 +5,7 @@ export const auth = {
 	namespaced: true,
 	state: () => ({
 		isLogin: false,
+		isAll:true,
 		hello: {},
 		authData: {
 			user: null,
@@ -31,6 +32,9 @@ export const auth = {
 		setLoginStatus(state, value) {
 			state.isLogin = value;
 		},
+		toggleIsAll(state){
+			state.isAll=!state.isAll;
+		}
 	},
 	actions: {
 		async login({ commit, dispatch }, payload) {
@@ -65,6 +69,9 @@ export const auth = {
 		logout: ({ commit }) => {
 			commit("logout");
 		},
+		toggleIsAll:({commit})=>{
+			commit("toggleIsAll");
+		},
 		hello: async ({ commit }) => {
 			let res = await api.get("/auth/v1/hello").catch((err) => {
 				console.log(err);
@@ -88,5 +95,8 @@ export const auth = {
 		getAuthData(state) {
 			return state.authData;
 		},
+		getIsAll(state){
+			return state.isAll;
+		}
 	},
 };

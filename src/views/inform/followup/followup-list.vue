@@ -35,14 +35,14 @@
           <button
             class="btn btn-primary mr-1 my-2 float-right"
             @click="
-              isAll=!isAll;
-              u=isAll?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
+              store.dispatch('auth/toggleIsAll');
+              u=store.getters['auth/getIsAll']?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
               table.setUrl(u)
               table.getData();
               table.changePage(1);
               "
           >
-            {{ isAll?'งานที่รับผิดชอบ':'งานทั้งหมด' }}
+            {{ store.getters['auth/getIsAll']?'งานที่รับผิดชอบ':'งานทั้งหมด' }}
           </button>
           <button
             class="btn btn-primary mr-1 my-2 float-right"
@@ -253,7 +253,8 @@ export default {
     const store = useStore();
     const auth = store.getters["auth/getAuthData"].user[0];
     let section = "";
-    let isAll=ref(true);
+    // let isAll=ref(true);
+    // const isAll=store.getters["auth/getIsAll"];
     section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
     // const url = ref(`/inform/v2/getData/${section}`);
     const url = ref(`/inform/v3/getData`);
@@ -393,7 +394,7 @@ export default {
     };
     const getDataAll = async () => {
       try {
-        let u=isAll.value?`/inform/v3/getDataAll`:`/inform/v2/getDataAll/${section}`;
+        let u=store.getters["auth/getIsAll"]?`/inform/v3/getDataAll`:`/inform/v2/getDataAll/${section}`;
         // let res = await api.post(`/inform/v2/getDataAll/${section}`, {
         let res = await api.post(u, {
           filters: table.value.getFilter(),
@@ -447,8 +448,9 @@ export default {
       unSelect,
       loadSuccess,
       url,
-      isAll,
+      // isAll,
       section,
+      store,
     };
   },
 };
