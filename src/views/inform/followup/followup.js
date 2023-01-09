@@ -131,6 +131,98 @@ export const useFollowup = () => {
     window.open(url);
   };
   const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
+  let status= [
+    {
+      id: 0,
+      title: "ทั้งหมด",
+      color: "black",
+      state: true,
+      count: 0,
+      status: -1,
+    },
+    {
+      id: 1,
+      title: "งานใหม่",
+      color: "red",
+      state: false,
+      count: 0,
+      status: 99,
+    },
+    {
+      id: 2,
+      title: "กำลังตรวจสอบ",
+      color: "orange",
+      state: false,
+      count: 0,
+      status: 0,
+    },
+    // { id: 1, title: "ดำเนินการเรียบร้อยแล้ว" },
+
+    {
+      id: 3,
+      title: "ส่งกลับเพื่อตรวจสอบ",
+      color: "#5900b3",
+      state: false,
+      count: 0,
+      status: 4,
+    },
+    {
+      id: 4,
+      title: "ปรึกษาส่วนกลาง",
+      color: "#fa39d7",
+      state: false,
+      count: 0,
+      status: 5,
+    },
+    {
+      id: 5,
+      title: "รอส่วนกลางตรวจสอบ",
+      color: "#704802",
+      state: false,
+      count: 0,
+      status: 3,
+    },
+    {
+      id: 6,
+      title: "ส่งกลับส่วนกลาง",
+      color: "#9c0676",
+      state: false,
+      count: 0,
+      status: 6,
+    },
+    {
+      id: 7,
+      title: "สรุปผล",
+      color: "#1664e0",
+      state: false,
+      count: 0,
+      status: 7,
+    },
+    {
+      id: 8,
+      title: "กำลังแก้ไขโปรแกรม",
+      color: "#2ca108",
+      state: false,
+      count: 0,
+      status: 2,
+    },
+    {
+      id: 9,
+      title: "แก้ไขข้อมูล",
+      color: "#1e967c",
+      state: false,
+      count: 0,
+      status: 8,
+    },
+    {
+      id: 10,
+      title: "ทดสอบโปรแกรม",
+      color: "#486660",
+      state: false,
+      count: 0,
+      status: 9,
+    },
+  ];
   return {
     auth,
     getJobDetail,
@@ -148,7 +240,8 @@ export const useFollowup = () => {
     getComment,
     getCommentPic,
     open,
-    padL
+    padL,
+    status,
 
   };
 };

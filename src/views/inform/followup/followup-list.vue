@@ -125,118 +125,31 @@
 </template>
 
 <script>
-import { reactive, onMounted, ref ,watch} from "vue";
+import { reactive, onMounted, ref ,nextTick} from "vue";
 import VTable from "@/components/table/table.vue";
 import { useStore } from "vuex";
 import { api, errAlert, okAlert } from "@/helper";
 import { useRouter } from "vue-router";
+import { useFollowup } from "./followup";
 export default {
   components: {
     VTable,
   },
   setup() {
+    const store = useStore();
     const router = useRouter();
+   let {status}=useFollowup();
     const state = reactive({
-      status: [
-        {
-          id: 0,
-          title: "ทั้งหมด",
-          color: "black",
-          state: true,
-          count: 0,
-          status: -1,
-        },
-        {
-          id: 1,
-          title: "งานใหม่",
-          color: "red",
-          state: false,
-          count: 0,
-          status: 99,
-        },
-        {
-          id: 2,
-          title: "กำลังตรวจสอบ",
-          color: "orange",
-          state: false,
-          count: 0,
-          status: 0,
-        },
-        // { id: 1, title: "ดำเนินการเรียบร้อยแล้ว" },
-
-        {
-          id: 3,
-          title: "ส่งกลับเพื่อตรวจสอบ",
-          color: "#5900b3",
-          state: false,
-          count: 0,
-          status: 4,
-        },
-        {
-          id: 4,
-          title: "ปรึกษาส่วนกลาง",
-          color: "#fa39d7",
-          state: false,
-          count: 0,
-          status: 5,
-        },
-        {
-          id: 5,
-          title: "รอส่วนกลางตรวจสอบ",
-          color: "#704802",
-          state: false,
-          count: 0,
-          status: 3,
-        },
-        {
-          id: 6,
-          title: "ส่งกลับส่วนกลาง",
-          color: "#9c0676",
-          state: false,
-          count: 0,
-          status: 6,
-        },
-        {
-          id: 7,
-          title: "สรุปผล",
-          color: "#1664e0",
-          state: false,
-          count: 0,
-          status: 7,
-        },
-        {
-          id: 8,
-          title: "กำลังแก้ไขโปรแกรม",
-          color: "#2ca108",
-          state: false,
-          count: 0,
-          status: 2,
-        },
-        {
-          id: 9,
-          title: "แก้ไขข้อมูล",
-          color: "#1e967c",
-          state: false,
-          count: 0,
-          status: 8,
-        },
-        {
-          id: 10,
-          title: "ทดสอบโปรแกรม",
-          color: "#486660",
-          state: false,
-          count: 0,
-          status: 9,
-        },
-      ],
+      status:status,
       data: [],
     });
     onMounted(() => {
       // เอาไว้โชว์เมนูรับแจ้งเข้าเข้าเงื่อนไข
-      if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
-        document.getElementById("ainform").click();
-      }
-      console.log(table.value)
+      nextTick(()=>{
+        if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
+          document.getElementById("ainform").click();
+        }
+      });
     });
     const setActive = async (status) => {
       state.status.map((it, i) => {
@@ -250,7 +163,7 @@ export default {
     };
 
     const table = ref();
-    const store = useStore();
+    
     const auth = store.getters["auth/getAuthData"].user[0];
     let section = "";
     section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";

@@ -12,6 +12,7 @@ export const auth = {
 			accessToken: null,
 			refreshToken: null,
 		},
+		
 	}),
 	mutations: {
 		logout: async (state) => {

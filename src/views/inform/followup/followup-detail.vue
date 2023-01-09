@@ -65,7 +65,7 @@
             ><span class="detail">{{ job.sdate }} {{ job.stime }}</span>
           </div>
           <div class="col-12 col-md-6">
-            <span class="title">สถานะ:</span><span class="detail">{{ job.status }}</span>
+            <span class="title">สถานะ:</span><span :style="{color:job.color}" class="detail" >{{ job.status }}</span>
           </div>
         </div>
         <div class="form-row">
@@ -247,5 +247,6 @@
 <script setup>
 import {useFollowupDetail} from "./followup-detail"
 const {placetype,comments,job,pics,sectid,isSpecial,sendCenter,check,open} =useFollowupDetail()
+
 
 </script>
