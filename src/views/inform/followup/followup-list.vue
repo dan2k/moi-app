@@ -183,7 +183,7 @@ export default {
         {
           id: 5,
           title: "รอส่วนกลางตรวจสอบ",
-          color: "#ff0000",
+          color: "#704802",
           state: false,
           count: 0,
           status: 3,
