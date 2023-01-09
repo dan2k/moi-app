@@ -3,21 +3,18 @@
     <div class="card">
       <div class="card-body">
         <div class="form-row">
-          <div class="col-3 mx-auto mt-0 mb-3 py-0  alert alert-primary text-center">
-            <h5 class="mt-2">{{$route.params.jobid}}</h5>
-            
+          <div class="col-3 mx-auto mt-0 mb-3 py-0 alert alert-primary text-center">
+            <h5 class="mt-2">{{ $route.params.jobid }}</h5>
           </div>
           <span
-              class="float-right"
-              style="cursor: pointer"
-              @click="$router.replace({ path: `/inform/followup` })"
-              ><i class="fas fa-arrow-left"></i
-            ></span>
+            class="float-right"
+            style="cursor: pointer"
+            @click="$router.replace({ path: `/inform/followup` })"
+            ><i class="fas fa-arrow-left"></i
+          ></span>
         </div>
         <div class="form-row">
-          <div class="col-12">
-            
-          </div>
+          <div class="col-12"></div>
         </div>
         <div class="form-row">
           <div class="col-12 col-md-6">
@@ -65,7 +62,8 @@
             ><span class="detail">{{ job.sdate }} {{ job.stime }}</span>
           </div>
           <div class="col-12 col-md-6">
-            <span class="title">สถานะ:</span><span :style="{color:job.color}" class="detail" >{{ job.status }}</span>
+            <span class="title">สถานะ:</span
+            ><span :style="{ color: job.color }" class="detail">{{ job.status }}</span>
           </div>
         </div>
         <div class="form-row">
@@ -138,7 +136,12 @@
           comment
         </button>
         <button
-          v-if="job.job_status != 1 && (job.job_receive_region==sectid || (job.section_id==sectid && isSpecial)  || sectid==0)"
+          v-if="
+            job.job_status != 1 &&
+            (job.job_receive_region == sectid ||
+              (job.section_id == sectid && isSpecial) ||
+              sectid == 0)
+          "
           class="btn btn-secondary my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/close` })
@@ -148,14 +151,18 @@
         </button>
 
         <button
-          v-if="placetype == 'R' && job.job_status == 0 && job.job_receive_region==sectid"
+          v-if="
+            placetype == 'R' && job.job_status == 0 && job.job_receive_region == sectid
+          "
           class="btn btn-warning my-1 mr-1"
           @click="sendCenter"
         >
           ปรึกษาส่วนกลาง
         </button>
         <button
-          v-if="placetype == 'R' && job.job_status == 4 && job.job_receive_region==sectid"
+          v-if="
+            placetype == 'R' && job.job_status == 4 && job.job_receive_region == sectid
+          "
           class="btn btn-warning my-1 mr-1"
           @click="
             $router.replace({
@@ -167,14 +174,20 @@
         </button>
 
         <button
-          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && job.job_status == 5"
+          v-if="
+            (placetype != 'R' || (isSpecial && sectid == job.section_id)) &&
+            job.job_status == 5
+          "
           class="btn btn-primary my-1 mr-1"
           @click="check"
         >
           รอตรวจสอบ
         </button>
         <button
-          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && job.job_status == 3"
+          v-if="
+            (placetype != 'R' || (isSpecial && sectid == job.section_id)) &&
+            job.job_status == 3
+          "
           class="btn btn-primary my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/summarize` })
@@ -183,7 +196,12 @@
           สรุปผล
         </button>
         <button
-          v-if="(placetype != 'R' && ![4,0,99].includes(Number(job.job_status))) || (isSpecial && sectid==job.section_id) && ![4,0,99].includes(Number(job.job_status)) "
+          v-if="
+            (placetype != 'R' && ![4, 0, 99].includes(Number(job.job_status))) ||
+            (isSpecial &&
+              sectid == job.section_id &&
+              ![4, 0, 99].includes(Number(job.job_status)))
+          "
           class="btn btn-warning my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/sendback` })
@@ -192,10 +210,16 @@
           ส่งกลับตรวจสอบเพิ่มเติม
         </button>
         <button
-          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && Number(job.isRepair)==0 && [6,7].includes(Number(job.job_status))"
+          v-if="
+            (placetype != 'R' || (isSpecial && sectid == job.section_id)) &&
+            Number(job.isRepair) == 0 &&
+            [6, 7].includes(Number(job.job_status))
+          "
           class="btn btn-info my-1 mr-1"
           @click="
-            $router.replace({ path: `/inform/followup/${$route.params.jobid}/receiverepair` })
+            $router.replace({
+              path: `/inform/followup/${$route.params.jobid}/receiverepair`,
+            })
           "
         >
           รับซ่อม
@@ -210,7 +234,10 @@
           แจ้งซ่อมซ้ำ
         </button> -->
         <button
-          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id))  && [6,7].includes(Number(job.job_status))"
+          v-if="
+            (placetype != 'R' || (isSpecial && sectid == job.section_id)) &&
+            [6, 7].includes(Number(job.job_status))
+          "
           class="btn btn-success my-1 mr-1"
           @click="
             $router.replace({ path: `/inform/followup/${$route.params.jobid}/editdata` })
@@ -219,10 +246,15 @@
           แก้ไขข้อมูล
         </button>
         <button
-          v-if="(placetype != 'R' || (isSpecial && sectid==job.section_id)) && [2].includes(Number(job.job_status))"
+          v-if="
+            (placetype != 'R' || (isSpecial && sectid == job.section_id)) &&
+            [2].includes(Number(job.job_status))
+          "
           class="btn btn-success my-1 mr-1"
           @click="
-            $router.replace({ path: `/inform/followup/${$route.params.jobid}/testprogram` })
+            $router.replace({
+              path: `/inform/followup/${$route.params.jobid}/testprogram`,
+            })
           "
         >
           ทดสอบโปรแกรม
@@ -245,8 +277,25 @@
 }
 </style>
 <script setup>
-import {useFollowupDetail} from "./followup-detail"
-const {placetype,comments,job,pics,sectid,isSpecial,sendCenter,check,open} =useFollowupDetail()
-
-
+import {  onMounted,nextTick} from "vue";
+import { useFollowupDetail } from "./followup-detail";
+const {
+  placetype,
+  comments,
+  job,
+  pics,
+  sectid,
+  isSpecial,
+  sendCenter,
+  check,
+  open,
+} = useFollowupDetail();
+onMounted(() => {
+  // เอาไว้โชว์เมนูรับแจ้งเข้าเข้าเงื่อนไข
+  nextTick(() => {
+    if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
+      document.getElementById("ainform").click();
+    }
+  });
+});
 </script>
