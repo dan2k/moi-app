@@ -175,7 +175,7 @@ export default {
         {
           id: 4,
           title: "ปรึกษาส่วนกลาง",
-          color: "#fccfe7",
+          color: "#fa39d7",
           state: false,
           count: 0,
           status: 5,
@@ -191,7 +191,7 @@ export default {
         {
           id: 6,
           title: "ส่งกลับส่วนกลาง",
-          color: "#fccff7",
+          color: "#9c0676",
           state: false,
           count: 0,
           status: 6,
@@ -199,7 +199,7 @@ export default {
         {
           id: 7,
           title: "สรุปผล",
-          color: "lightblue",
+          color: "#1664e0",
           state: false,
           count: 0,
           status: 7,
@@ -207,7 +207,7 @@ export default {
         {
           id: 8,
           title: "กำลังแก้ไขโปรแกรม",
-          color: "orange",
+          color: "#2ca108",
           state: false,
           count: 0,
           status: 2,
@@ -215,7 +215,7 @@ export default {
         {
           id: 9,
           title: "แก้ไขข้อมูล",
-          color: "green",
+          color: "#1e967c",
           state: false,
           count: 0,
           status: 8,
@@ -223,7 +223,7 @@ export default {
         {
           id: 10,
           title: "ทดสอบโปรแกรม",
-          color: "yellow",
+          color: "#486660",
           state: false,
           count: 0,
           status: 9,
@@ -253,19 +253,9 @@ export default {
     const store = useStore();
     const auth = store.getters["auth/getAuthData"].user[0];
     let section = "";
-    // let isAll=ref(true);
-    // const isAll=store.getters["auth/getIsAll"];
     section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
-    // const url = ref(`/inform/v2/getData/${section}`);
-    const url = ref(`/inform/v3/getData`);
-    // watch([isAll],(newVal)=>{
-
-    //   let u=isAll.value?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
-    //   url.value=u;
-    //   console.log(u)
-    //   table.getData();
-    //   table.changePage(1);
-    // });
+    let u=store.getters["auth/getIsAll"]?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
+    const url = ref(u);
     const columns = ref([
       {
         label: "เร่งด่วน",
@@ -448,7 +438,6 @@ export default {
       unSelect,
       loadSuccess,
       url,
-      // isAll,
       section,
       store,
     };
