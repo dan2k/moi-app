@@ -77,13 +77,13 @@
             <img
               v-for="(p, index) in pics"
               :key="index"
-              :src="`https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/jobs/${p.pic_name}`"
+              :src="`${JOBIMAGE}${p.pic_name}`"
               class="img-thumbnail mx-1"
               alt="..."
               style="cursor: pointer; width: 150px; height: 150px"
               @click="
                 open(
-                  `https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/jobs/${p.pic_name}`
+                  `${JOBIMAGE}${p.pic_name}`
                 )
               "
             />
@@ -105,15 +105,11 @@
                 <img
                   v-for="(p, index) in c.pics"
                   :key="index"
-                  :src="`https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/comments/${p.pic_name}`"
+                  :src="`${COMMENTIMAGE}${p.pic_name}`"
                   class="img-thumbnail mx-1"
                   alt="..."
                   style="cursor: pointer; width: 80px; height: 80px"
-                  @click="
-                    open(
-                      `https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/comments/${p.pic_name}`
-                    )
-                  "
+                  @click="open(`${COMMENTIMAGE}${p.pic_name}`)"
                 />
               </div>
             </div>
@@ -290,6 +286,8 @@ const {
   check,
   open,
 } = useFollowupDetail();
+const JOBIMAGE=import.meta.env.VITE_PRIVATE_JOBIMAGE;
+const COMMENTIMAGE=import.meta.env.VITE_PRIVATE_COMMENTIMAGE;
 onMounted(() => {
   // เอาไว้โชว์เมนูรับแจ้งเข้าเข้าเงื่อนไข
   nextTick(() => {
