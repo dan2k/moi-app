@@ -60,7 +60,7 @@ export const useFollowupDetail = () => {
     isSpecial.value=await checkSpecialUser(job.value.cust_user)
     job.value.color=status.filter(
       (it, i) => Number(it.status) === Number(job.value.job_status)
-    )[0]['color'];
+    )[0]?.['color'];
   };
   onMounted(async () => {
     await init();

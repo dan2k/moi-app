@@ -66,6 +66,11 @@ const routes = [
 				name:"logbook-detail",
 				component: () => import("../views/inform/logbook/logbook-detail.vue"),
 			},
+			{
+				path:":jobid/satisfy",
+				name:"logbook-satisfy",
+				component: () => import("../views/inform/logbook/logbook-satisfy.vue"),
+			},
 		],
 		beforeEnter: beforeEnter,
 	},

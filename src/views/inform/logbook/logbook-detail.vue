@@ -120,6 +120,20 @@
         </div>
       </div>
     </div>
+    <div class="form-row">
+          <div class="col-12 text-center">
+						<button
+            v-if="job.center_flag==1 && job.satisfy2<1"
+						class="btn btn-primary my-1 mr-1"
+						@click="
+            $router.replace({ path: `/inform/logbook/${$route.params.jobid}/satisfy` })
+            "
+						>
+							ประเมิณความพึงพอใจ MTS(SUPPORT)
+
+						</button>
+					</div>
+		</div>
     
   </div>
 </template>
@@ -138,5 +152,6 @@
 <script setup>
 import {useFollowupDetail} from "../followup/followup-detail"
 const {comments,job,pics,open} =useFollowupDetail()
+
 
 </script>
