@@ -393,36 +393,36 @@ export default {
 }
 
 .yellow{
-  left:15px; 
-  width: 5px;
-  height: 5px;
+  left:5px; 
+  width: 1px;
+  height: 1px;
   background:gold;
-  box-shadow: 0px 0px 9px 4px gold;
+  box-shadow: 0px 0px 2px 1px gold;
 }
 
 .orange{
-  left:10px; 
-  width: 15px;
-  height: 15px;
+  left:5px; 
+  width: 5px;
+  height: 5px;
   background:orange;
-  box-shadow: 0px 0px 9px 4px orange;
+  box-shadow: 0px 0px 2px 1px orange;
 }
 
 .red{
-  left:5px;
-  width: 20px;
-  height: 20px;
+  left:3px;
+  width: 10px;
+  height: 10px;
   background:OrangeRed;
-  box-shadow: 0px 0px 5px 4px OrangeRed;
+  box-shadow: 0px 0px 1px 0px OrangeRed;
 }
 
 .white{
   left:15px; 
   bottom:-4px;
-  width: 5px;
-  height: 5px;
+  width: 3px;
+  height: 3px;
   background:white;
-  box-shadow: 0px 0px 9px 4px white;
+  box-shadow: 0px 0px 5px 2px white;
 }
 
 /* .circle{
