@@ -393,7 +393,7 @@ export default {
 }
 
 .yellow{
-  left:5px; 
+  left:7px; 
   width: 1px;
   height: 1px;
   background:gold;
@@ -401,7 +401,7 @@ export default {
 }
 
 .orange{
-  left:5px; 
+  left:7px; 
   width: 5px;
   height: 5px;
   background:orange;
@@ -409,20 +409,20 @@ export default {
 }
 
 .red{
-  left:3px;
+  left:5px;
   width: 10px;
   height: 10px;
   background:OrangeRed;
-  box-shadow: 0px 0px 1px 0px OrangeRed;
+  box-shadow: 0px 0px 2px 1px OrangeRed;
 }
 
 .white{
-  left:15px; 
-  bottom:-4px;
-  width: 3px;
+  left:9px; 
+  bottom:-2px;
+  width: 1px;
   height: 3px;
   background:white;
-  box-shadow: 0px 0px 5px 2px white;
+  box-shadow: 0px 0px 2px 1px white;
 }
 
 /* .circle{
