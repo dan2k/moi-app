@@ -99,5 +99,7 @@ const back=()=>{
   router.replace({path: `/inform/followup/${route.params.jobid}/detail`,})
 
 }
-onMounted(async () => {});
+onMounted(async () => {
+  files.value.length = 0;
+});
 </script>
