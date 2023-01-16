@@ -157,7 +157,14 @@
 </style>
 <script setup>
 import {useFollowupDetail} from "../followup/followup-detail"
+import {nextTick,onMounted } from "vue";
 const {comments,job,pics,open} =useFollowupDetail()
-
+onMounted(()=>{
+  nextTick(()=>{
+		if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
+		  document.getElementById("ainform").click();
+		}
+	})
+})
 
 </script>
