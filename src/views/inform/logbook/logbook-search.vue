@@ -77,7 +77,9 @@ import DateTime from "@/components/form/DateComponent3.vue";
 import Text from "@/components/form/InputComponent.vue";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
+import { errAlert} from "@/helper";
 import { useFollowup } from "../followup/followup";
+
 const {padL} = useFollowup();
 const baseUrl = import.meta.env.VITE_PRIVATE_BASE_URL;
 
@@ -238,13 +240,18 @@ const v = useVuelidate(rules, {
 });
 
 
-const submit=()=>{
+const submit=async ()=>{
 	v.value.$touch();
     if (v.value.$error) return;
+	//console.log(start.value-end.value)
+	if((start.value-end.value)>0){
+		await errAlert("วันที่เริ่มต้นต้องไม่มากกว่าวันที่สิ้นสุด")
+		return;
+	}
 	let st = start.value;
     st = `${st.getFullYear()}-${padL(st.getMonth() + 1)}-${padL(st.getDate())} 00:00:00`;
 	let ed = end.value;
-    ed = `${ed.getFullYear()}-${padL(ed.getMonth() + 1)}-${padL(ed.getDate())} 00:00:00`;
+    ed = `${ed.getFullYear()}-${padL(ed.getMonth() + 1)}-${padL(ed.getDate())} 23:59:59`;
 	let data={
 		start:st,
 		end:ed,
