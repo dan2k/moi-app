@@ -5,10 +5,22 @@
 		<form ref="form" @submit.prevent="submit" class="needs-validation" novalidate>
 			<div class="row my-1">
 				<div class="col-md-3">
-					<date-time label="วันที่เริ่มต้น" :v="v.start" :showTime="false" :format="format" auto-apply> </date-time>
+					<date-time 
+						label="วันที่เริ่มต้น" 
+						:v="v.start" 
+						:showTime="false" 
+						:format="format"
+						locale="th-TH"
+						auto-apply> </date-time>
 				</div>
 				<div class="col-md-3">
-					<date-time label="วันที่สิ้นสุด" :v="v.end" :showTime="false" :format="format" auto-apply> </date-time>
+					<date-time 
+						label="วันที่สิ้นสุด" 
+						:v="v.end" 
+						:showTime="false" 
+						:format="format" 
+						locale="th-TH"
+						auto-apply> </date-time>
 				</div>
 				<div class="col-md-3">
 					<Text label="รหัสพนักงาน:" :v="v.empid"></Text>
