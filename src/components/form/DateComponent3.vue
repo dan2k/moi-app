@@ -5,6 +5,7 @@
 			v-bind="$attrs"
 			v-model="v.$model"	
 			:format="format"
+			:enable-time-picker="showTime"
 		>
 		<template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
           <input 
@@ -47,19 +48,36 @@ export default {
 			type: Object,
 			required: true,
 		},
+		showTime:{
+			type:Boolean,
+			default:true,
+		},
+		format:{
+			type:Function,
+			default:(date) => {
+				const day = date.getDate();
+				const month = date.getMonth() + 1;
+				const year = date.getFullYear();
+				var seconds = date.getSeconds();
+				var minutes = date.getMinutes();
+				var hour = date.getHours();
+
+				return `${day}/${month}/${year} ${hour}:${minutes}:${seconds}`;
+			}
+		}
 	},
 	setup() {
-		const format = (date) => {
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
-			var seconds = date.getSeconds();
-			var minutes = date.getMinutes();
-			var hour = date.getHours();
+		//  const format = (date) => {
+        //     const day = date.getDate();
+        //     const month = date.getMonth() + 1;
+        //     const year = date.getFullYear();
+		// 	var seconds = date.getSeconds();
+		// 	var minutes = date.getMinutes();
+		// 	var hour = date.getHours();
 
-            return `${day}/${month}/${year} ${hour}:${minutes}:${seconds}`;
-        }
-		return { format }
+        //     return `${day}/${month}/${year} ${hour}:${minutes}:${seconds}`;
+        // } 
+		// return { format }
 
 	},
 };

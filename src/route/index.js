@@ -71,6 +71,11 @@ const routes = [
 				name:"logbook-satisfy",
 				component: () => import("../views/inform/logbook/logbook-satisfy.vue"),
 			},
+			{
+				path:"search",
+				name:"logbook-search",
+				component: () => import("../views/inform/logbook/logbook-search.vue"),
+			},
 		],
 		beforeEnter: beforeEnter,
 	},
