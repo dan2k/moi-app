@@ -72,6 +72,12 @@
             ><span class="detail">{{ job.job_desc }}</span>
           </div>
         </div>
+        <div class="form-row" v-if="job.job_csvno">
+          <div class="col-12 col-md-12">
+            <span class="title">CSV NO:</span
+            ><span class="detail">{{ job.job_csvno }}</span>
+          </div>
+        </div>
         <div class="form-row">
           <div class="col-12 text-center my-2">
             <img
