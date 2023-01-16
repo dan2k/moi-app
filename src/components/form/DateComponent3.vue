@@ -6,7 +6,11 @@
 			v-model="v.$model"	
 			:format="format"
 			:enable-time-picker="showTime"
+			locale="th-TH"
 		>
+		<!-- <template #year="{ year }">
+			{{ `${year+543}` }}
+		</template> -->
 		<template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
           <input 
 		  	type="text" 

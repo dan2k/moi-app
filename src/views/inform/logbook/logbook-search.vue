@@ -10,8 +10,8 @@
 						:v="v.start" 
 						:showTime="false" 
 						:format="format"
-						locale="th-TH"
-						auto-apply> </date-time>
+						auto-apply> 
+					</date-time>
 				</div>
 				<div class="col-md-3">
 					<date-time 
@@ -19,7 +19,6 @@
 						:v="v.end" 
 						:showTime="false" 
 						:format="format" 
-						locale="th-TH"
 						auto-apply> </date-time>
 				</div>
 				<div class="col-md-3">
