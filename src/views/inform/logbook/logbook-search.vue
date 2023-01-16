@@ -71,22 +71,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed,nextTick } from "vue";
 import VTable from "@/components/table/table.vue";
 import DateTime from "@/components/form/DateComponent3.vue";
 import Text from "@/components/form/InputComponent.vue";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
-import { errAlert} from "@/helper";
 import { useFollowup } from "../followup/followup";
 
 const {padL} = useFollowup();
 const baseUrl = import.meta.env.VITE_PRIVATE_BASE_URL;
 
 onMounted(async () => {
-  if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
-    document.getElementById("ainform").click();
-  }
+	nextTick(()=>{
+		if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
+		  document.getElementById("ainform").click();
+		}
+	})
 });
 
 const table = ref();
@@ -216,6 +217,13 @@ const format = (date) => {
 let start = ref(new Date());
 let end = ref(new Date());
 let empid = ref(null);
+function datediff () {
+  let rs=start.value-end.value
+  if (rs>0) return false
+  return true;
+}
+const asyncDate = helpers.withAsync(datediff, [start,end])
+
 const rules = computed(function () {
   let tmp = {
     start: {},
@@ -224,9 +232,11 @@ const rules = computed(function () {
   };
   tmp.start = {
     required: helpers.withMessage("ห้ามเป็นค่าว่าง", required),
+    datediff: helpers.withMessage("วันที่เริ่มต้นต้องไม่มากกว่าวันที่สิ้นสุด",asyncDate),
   };
   tmp.end = {
     required: helpers.withMessage("ห้ามเป็นค่าว่าง", required),
+	datediff: helpers.withMessage("วันที่สิ้นสุดต้องไม่น้อยกว่าวันที่เริ่มต้น",asyncDate),
   };
   tmp.empid = {
     required: helpers.withMessage("ห้ามเป็นค่าว่าง", required),
@@ -243,11 +253,6 @@ const v = useVuelidate(rules, {
 const submit=async ()=>{
 	v.value.$touch();
     if (v.value.$error) return;
-	//console.log(start.value-end.value)
-	if((start.value-end.value)>0){
-		await errAlert("วันที่เริ่มต้นต้องไม่มากกว่าวันที่สิ้นสุด")
-		return;
-	}
 	let st = start.value;
     st = `${st.getFullYear()}-${padL(st.getMonth() + 1)}-${padL(st.getDate())} 00:00:00`;
 	let ed = end.value;

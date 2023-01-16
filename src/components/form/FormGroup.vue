@@ -10,7 +10,7 @@
 		>
 		<slot></slot>
 		<div v-if="v.$error" class="text-danger">
-			{{ v.$errors[0].$message }}
+			{{ v.$errors[0]?.$message }}
 		</div>
 	</div>
 </template>
