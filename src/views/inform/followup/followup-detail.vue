@@ -154,17 +154,9 @@
                     <img v-show="p.fullscreen" :src="`${COMMENTIMAGE}${p.pic_name}`">
                   </div>
                 </fullscreen>
-                <!-- <img
-                  v-for="(p, index) in c.pics"
-                  :key="index"
-                  :src="`${COMMENTIMAGE}${p.pic_name}`"
-                  class="img-thumbnail mx-1"
-                  alt="..."
-                  style="cursor: pointer; width: 80px; height: 80px"
-                  @click="open(`${COMMENTIMAGE}${p.pic_name}`)"
-                /> -->
+                
               </div>
-            </div>
+            </div> 
             <p class="float-right card-text" style="font-size: 10px">
               โดย {{ c.thiname }} {{ c.comment_datetime }}
             </p>
@@ -311,6 +303,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 <style scoped>
 .title {
@@ -341,9 +334,10 @@
 }
 </style>
 <script setup>
-import {  onMounted,nextTick} from "vue";
+import {  onMounted,nextTick,ref} from "vue";
 import { useFollowupDetail } from "./followup-detail";
 import { component as fullscreen } from 'vue-fullscreen';
+
 const {
   placetype,
   comments,

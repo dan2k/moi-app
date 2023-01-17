@@ -170,12 +170,12 @@
             <button 
                     v-if="job.satisfy1<1 && job.job_status==1" 
                     @click="open(`https://www.controldata.co.th/mpsicc/callcenter/client/followup/${$route.params.jobid}/satisfy`)"
-                    class="btn btn-primary btn-sm"
+                    class="btn btn-primary btn-sm mx-1"
                 >ประเมินความพึงพอใจ(ลูกค้า)
                 </button>
 						<button
             v-if="job.center_flag==1 && job.satisfy2<1"
-						class="btn btn-primary my-1 mr-1"
+						class="btn btn-primary btn-sm my-1 mx-1"
 						@click="
             $router.replace({ path: `/inform/logbook/${$route.params.jobid}/satisfy` })
             "
