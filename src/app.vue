@@ -140,7 +140,7 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 export default {
 	setup() {
-		const toggleClass = ref(true);
+		const toggleClass = ref(false);
 		const store = useStore();
 		const route = useRoute();
 

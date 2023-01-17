@@ -3,6 +3,7 @@ import { api, okAlert,confAlert } from "@/helper";
 import { useRoute } from "vue-router";
 
 import { useFollowup } from "./followup";
+import { errAlert } from "../../../helper/alert";
 export const useFollowupDetail = () => {
   const { auth, getJobDetail,checkSpecialUser, getPic, open, getComment, getCommentPic,status } =    useFollowup();
   const route = useRoute();
@@ -49,12 +50,19 @@ export const useFollowupDetail = () => {
   const init = async () => {
     job.value = await getJobDetail(route.params.jobid);
     pics.value = await getPic(route.params.jobid);
+    pics.value.map((ob,i)=>{
+      ob['fullscreen']=false 
+      return ob
+    })
     commentObj.value = await getCommentPic(route.params.jobid);
     comments.value = await getComment(route.params.jobid);
     comments.value.map((ob, i) => {
       ob["pics"] = commentObj.value.filter(
-        (ob2, i) => ob2.comment_id == ob.comment_id
+        (ob2, j) => ob2.comment_id == ob.comment_id
       );
+      ob.pics.map((ob2,j)=>{
+        return ob2['fullscreen']=false;
+      })
       return ob;
     });
     isSpecial.value=await checkSpecialUser(job.value.cust_user)
@@ -62,6 +70,31 @@ export const useFollowupDetail = () => {
       (it, i) => Number(it.status) === Number(job.value.job_status)
     )[0]?.['color'];
   };
+  const del= async (commentid)=>{
+    let rs=await confAlert('คุณต้องการลบความคิดเห็นนี้ใช่หรือไม่')
+    if(!rs.isConfirmed){
+      return
+    }
+    try{
+      rs = await api.delete(`/inform/v2/delComment/${commentid}`);
+      if(rs.data.status){
+        await okAlert(rs.data.msg)
+        comments.value = await getComment(route.params.jobid);
+        comments.value.map((ob, i) => {
+          ob["pics"] = commentObj.value.filter(
+            (ob2, j) => ob2.comment_id == ob.comment_id
+          );
+          ob.pics.map((ob2,j)=>{
+            return ob2['fullscreen']=false;
+          })
+          return ob;
+        });
+      }
+    }catch(err){
+      errAlert(err)
+    }
+
+  }
   onMounted(async () => {
     await init();
   });
@@ -76,5 +109,7 @@ export const useFollowupDetail = () => {
     sendCenter,
     check,
     open,
+    empid,
+    del,
   };
 };

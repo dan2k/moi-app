@@ -79,8 +79,22 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="col-12 text-center my-2">
-            <img
+          <div v-for="(p, index) in pics"
+                  :key="index" class="col-2 text-center my-2 mx-auto">
+            <fullscreen
+                  v-model="p.fullscreen" :teleport="true" :page-only="false" fullscreen-class="fullscreenx" style="z-index:9999;">
+                  <div class="fullscreen-wrapper" >
+                    <img v-show="!p.fullscreen" 
+                      :src="`${JOBIMAGE}${p.pic_name}`"
+                      class="img-thumbnail "
+                      alt="..."
+                      style="cursor: pointer; width: 80px; height: 80px"    
+                      @click="toggle(p)"
+                    >
+                    <img v-show="p.fullscreen" :src="`${JOBIMAGE}${p.pic_name}`">
+                  </div>
+                </fullscreen>
+            <!-- <img
               v-for="(p, index) in pics"
               :key="index"
               :src="`${JOBIMAGE}${p.pic_name}`"
@@ -92,23 +106,49 @@
                   `${JOBIMAGE}${p.pic_name}`
                 )
               "
-            />
+            /> -->
           </div>
         </div>
       </div>
     </div>
     <div class="form-row" v-for="(c, index) in comments" :key="index">
       <div class="col-12">
-        <div class="card my-2">
+        <div class="card my-2" style="z-index:1;">
           <div class="card-body">
             <div class="float-right" style="font-size: 12px">
-              ความคิดเห็นที่ {{ index + 1 }}
+              ความคิดเห็นที่ {{ index + 1 }} 
+              <span v-if="empid==c.comment_add_user" @click="del(c.comment_id)" style="color:red;cursor:poiniter;" class="material-icons-outlined">delete</span>
             </div>
             <br />
             <div style="font-size: 14px; text-indent: 20px">{{ c.comment_desc }}</div>
             <div class="row">
-              <div class="col-12 text-center my-2">
-                <img
+              <div
+                  v-for="(p, index) in c.pics"
+                  :key="index" 
+                  class="col-2 text-center my-2 mx-auto"
+                  
+                  >
+                  
+                <fullscreen
+                   
+                  v-model="p.fullscreen" 
+                  :teleport="true" 
+                  :page-only="false" 
+                  fullscreen-class="fullscreenx"
+                  style="z-index:9999;"
+                  >
+                  <div class="fullscreen-wrapper">
+                    <img v-show="!p.fullscreen" 
+                      :src="`${COMMENTIMAGE}${p.pic_name}`"
+                      class="img-thumbnail"
+                      alt="..."
+                      style="cursor: pointer; width: 80px; height: 80px"    
+                      @click="toggle(p)"
+                    >
+                    <img v-show="p.fullscreen" :src="`${COMMENTIMAGE}${p.pic_name}`">
+                  </div>
+                </fullscreen>
+                <!-- <img
                   v-for="(p, index) in c.pics"
                   :key="index"
                   :src="`${COMMENTIMAGE}${p.pic_name}`"
@@ -116,7 +156,7 @@
                   alt="..."
                   style="cursor: pointer; width: 80px; height: 80px"
                   @click="open(`${COMMENTIMAGE}${p.pic_name}`)"
-                />
+                /> -->
               </div>
             </div>
             <p class="float-right card-text" style="font-size: 10px">
@@ -127,7 +167,7 @@
       </div>
     </div>
     <div class="form-row">
-      <div class="col-12 text-center">
+      <div class="col-12 text-center" style="z-index:2;">
         <button
           v-if="job.job_status != 1"
           class="btn btn-primary my-1 mr-1"
@@ -277,10 +317,25 @@
 .detail::before {
   content: "  ";
 }
+.fullscreenx{
+  z-index:9999 important;
+}
+.fullscreen-wrapper {
+  width: 100%;
+  height: 100%;
+  background: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
 </style>
 <script setup>
 import {  onMounted,nextTick} from "vue";
 import { useFollowupDetail } from "./followup-detail";
+import { component as fullscreen } from 'vue-fullscreen';
 const {
   placetype,
   comments,
@@ -288,6 +343,8 @@ const {
   pics,
   sectid,
   isSpecial,
+  empid,
+  del,
   sendCenter,
   check,
   open,
@@ -302,4 +359,9 @@ onMounted(() => {
     }
   });
 });
+const toggle=(pic)=> {
+      console.log(pic)
+      pic.fullscreen=!pic.fullscreen
+}
 </script>
+

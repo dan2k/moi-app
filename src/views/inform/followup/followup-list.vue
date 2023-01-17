@@ -329,9 +329,12 @@ export default {
       // window.open(url);
       //console.log(row)
       if (Number(row.job_status) === 99) {
-        router.replace({ path: `/inform/followup/${row.job_id}/receive` });
+
+        // router.replace({ path: `/inform/followup/${row.job_id}/receive` });
+        window.open(`/inform/followup/${row.job_id}/receive`)
       } else {
-        router.replace({ path: `/inform/followup/${row.job_id}/detail` });
+        // router.replace({ path: `/inform/followup/${row.job_id}/detail` });
+        window.open(`/inform/followup/${row.job_id}/detail`)
       }
     };
 
