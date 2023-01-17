@@ -81,7 +81,7 @@
         <div class="form-row">
           <div class="col-12 mx-auto">
             <viewer  
-            :options="{}"
+            :options="{fullscreen: true}"
               :images="pics.map((ob,i)=>`${JOBIMAGE}${ob.pic_name}`)"
               class="viewer text-center" 
             >

@@ -50,19 +50,12 @@ export const useFollowupDetail = () => {
   const init = async () => {
     job.value = await getJobDetail(route.params.jobid);
     pics.value = await getPic(route.params.jobid);
-    pics.value.map((ob,i)=>{
-      ob['fullscreen']=false 
-      return ob
-    })
     commentObj.value = await getCommentPic(route.params.jobid);
     comments.value = await getComment(route.params.jobid);
     comments.value.map((ob, i) => {
       ob["pics"] = commentObj.value.filter(
         (ob2, j) => ob2.comment_id == ob.comment_id
       );
-      ob.pics.map((ob2,j)=>{
-        return ob2['fullscreen']=false;
-      })
       return ob;
     });
     isSpecial.value=await checkSpecialUser(job.value.cust_user)
@@ -84,9 +77,6 @@ export const useFollowupDetail = () => {
           ob["pics"] = commentObj.value.filter(
             (ob2, j) => ob2.comment_id == ob.comment_id
           );
-          ob.pics.map((ob2,j)=>{
-            return ob2['fullscreen']=false;
-          })
           return ob;
         });
       }
