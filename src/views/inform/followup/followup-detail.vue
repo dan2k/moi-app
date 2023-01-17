@@ -84,6 +84,9 @@
             <fullscreen
                   v-model="p.fullscreen" :teleport="true" :page-only="false" fullscreen-class="fullscreenx" style="z-index:9999;">
                   <div class="fullscreen-wrapper" >
+                    <button v-if="p.fullscreen" type="button" class="btn btn-outline-danger btn-sm btnx" @click="p.fullscreen=false">
+                      exit
+                    </button>
                     <img v-show="!p.fullscreen" 
                       :src="`${JOBIMAGE}${p.pic_name}`"
                       class="img-thumbnail "
@@ -138,6 +141,9 @@
                   style="z-index:9999;"
                   >
                   <div class="fullscreen-wrapper">
+                    <button v-if="p.fullscreen" type="button" class="btn btn-outline-danger btn-sm btnx" @click="p.fullscreen=false">
+                      exit
+                    </button>
                     <img v-show="!p.fullscreen" 
                       :src="`${COMMENTIMAGE}${p.pic_name}`"
                       class="img-thumbnail"
@@ -330,7 +336,9 @@
   justify-content: center;
   padding: 10px;
 }
-
+.btnx{
+  margin-top: 80px;
+}
 </style>
 <script setup>
 import {  onMounted,nextTick} from "vue";
