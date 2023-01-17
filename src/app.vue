@@ -120,8 +120,8 @@
 						v-if="store.state.auth.isLogin && !toggleClass"
 						type="button"
 						id="sidebarCollapse"
-						class="btn btn-info"
-						style="position: absolute; top: 0; left: 0"
+						class="btn btn-primary btn-lg"
+						style="position: absolute; top: 1; left: 1"
 						@click="toggle"
 					>
 						<i class="fas fa-align-left"></i>
