@@ -79,37 +79,16 @@
           </div>
         </div>
         <div class="form-row">
-          <div v-for="(p, index) in pics"
-                  :key="index" class="col-2 text-center my-2 mx-auto">
-            <fullscreen
-                  v-model="p.fullscreen" :teleport="true" :page-only="false" fullscreen-class="fullscreenx" style="z-index:9999;">
-                  <div class="fullscreen-wrapper" >
-                    <button v-if="p.fullscreen" type="button" class="btn btn-outline-danger btn-sm btnx" @click="p.fullscreen=false">
-                      exit
-                    </button>
-                    <img v-show="!p.fullscreen" 
-                      :src="`${JOBIMAGE}${p.pic_name}`"
-                      class="img-thumbnail "
-                      alt="..."
-                      style="cursor: pointer; width: 80px; height: 80px"    
-                      @click="toggle(p)"
-                    >
-                    <img v-show="p.fullscreen" :src="`${JOBIMAGE}${p.pic_name}`">
-                  </div>
-                </fullscreen>
-            <!-- <img
-              v-for="(p, index) in pics"
-              :key="index"
-              :src="`${JOBIMAGE}${p.pic_name}`"
-              class="img-thumbnail mx-1"
-              alt="..."
-              style="cursor: pointer; width: 150px; height: 150px"
-              @click="
-                open(
-                  `${JOBIMAGE}${p.pic_name}`
-                )
-              "
-            /> -->
+          <div class="col-12 mx-auto">
+            <viewer  
+            :options="{}"
+              :images="pics.map((ob,i)=>`${JOBIMAGE}${ob.pic_name}`)"
+              class="viewer text-center" 
+            >
+            <template #default="scope">
+              <img v-for="src in scope.images" :src="src" :key="src" class="image">
+            </template>
+            </viewer>
           </div>
         </div>
       </div>
@@ -125,36 +104,17 @@
             <br />
             <div style="font-size: 14px; text-indent: 20px">{{ c.comment_desc }}</div>
             <div class="row">
-              <div
-                  v-for="(p, index) in c.pics"
-                  :key="index" 
-                  class="col-2 text-center my-2 mx-auto"
+              <div class="col-12 mx-auto">
+                <viewer  
+                :options="{}"
+                  :images="c.pics.map((ob,i)=>`${COMMENTIMAGE}${ob.pic_name}`)"
+                  class="viewer text-center" 
                   
-                  >
-                  
-                <fullscreen
-                   
-                  v-model="p.fullscreen" 
-                  :teleport="true" 
-                  :page-only="false" 
-                  fullscreen-class="fullscreenx"
-                  style="z-index:9999;"
-                  >
-                  <div class="fullscreen-wrapper">
-                    <button v-if="p.fullscreen" type="button" class="btn btn-outline-danger btn-sm btnx" @click="p.fullscreen=false">
-                      exit
-                    </button>
-                    <img v-show="!p.fullscreen" 
-                      :src="`${COMMENTIMAGE}${p.pic_name}`"
-                      class="img-thumbnail"
-                      alt="..."
-                      style="cursor: pointer; width: 80px; height: 80px"    
-                      @click="toggle(p)"
-                    >
-                    <img v-show="p.fullscreen" :src="`${COMMENTIMAGE}${p.pic_name}`">
-                  </div>
-                </fullscreen>
-                
+                >
+                <template #default="scope">
+                  <img v-for="src in scope.images" :src="src" :key="src" class="image">
+                </template>
+                </viewer>
               </div>
             </div> 
             <p class="float-right card-text" style="font-size: 10px">
@@ -316,27 +276,20 @@
 .detail::before {
   content: "  ";
 }
-.fullscreenx{
-  z-index:9999 important;
-}
-.fullscreen-wrapper {
-  width: 100%;
-  height: 100%;
-  background: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-}
-.btnx{
-  margin-top: 80px;
+
+.image {
+  cursor: pointer;
+  margin: 5px;
+  display: inline-block;
+  width:100px;
+  height:100px;
 }
 </style>
 <script setup>
 import {  onMounted,nextTick,ref} from "vue";
 import { useFollowupDetail } from "./followup-detail";
-import { component as fullscreen } from 'vue-fullscreen';
+import 'viewerjs/dist/viewer.css'
+import Viewer from "ice-vue-viewer/src/component.vue"
 
 const {
   placetype,
