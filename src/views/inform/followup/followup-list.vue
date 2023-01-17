@@ -325,16 +325,17 @@ export default {
       // console.log(data);
       await getDataAll();
     };
+    const baseUrl=import.meta.env.VITE_PRIVATE_BASE_URL;
     const view = (row) => {
       // window.open(url);
       //console.log(row)
       if (Number(row.job_status) === 99) {
 
         // router.replace({ path: `/inform/followup/${row.job_id}/receive` });
-        window.open(`/inform/followup/${row.job_id}/receive`)
+        window.open(`${baseUrl}inform/followup/${row.job_id}/receive`)
       } else {
         // router.replace({ path: `/inform/followup/${row.job_id}/detail` });
-        window.open(`/inform/followup/${row.job_id}/detail`)
+        window.open(`${baseUrl}inform/followup/${row.job_id}/detail`)
       }
     };
 
