@@ -75,7 +75,7 @@
         <div class="form-row" v-if="job.job_csvno">
           <div class="col-12 col-md-12">
             <span class="title">CSV NO:</span
-            ><span class="detail"><pre>{{ job.job_csvno }}</pre></span>
+            ><span class="detail"><pre style="text-indent: 0">{{ job.job_csvno }}</pre></span>
           </div>
         </div>
         <div class="form-row">
