@@ -81,7 +81,7 @@
         <div class="form-row">
           <div class="col-12 mx-auto">
             <viewer  
-            :options="{fullscreen: true}"
+            :options="{navbar:pics.map((ob,i)=>`${JOBIMAGE}${ob.pic_name}`).length>1}"
               :images="pics.map((ob,i)=>`${JOBIMAGE}${ob.pic_name}`)"
               class="viewer text-center" 
             >
@@ -106,10 +106,11 @@
             <div class="row">
               <div class="col-12 mx-auto">
                 <viewer  
-                :options="{}"
+                :options="{
+                    navbar:c.pics.map((ob,i)=>`${COMMENTIMAGE}${ob.pic_name}`).length>1,
+                  }"
                   :images="c.pics.map((ob,i)=>`${COMMENTIMAGE}${ob.pic_name}`)"
                   class="viewer text-center" 
-                  
                 >
                 <template #default="scope">
                   <img v-for="src in scope.images" :src="src" :key="src" class="image">
@@ -286,7 +287,7 @@
 }
 </style>
 <script setup>
-import {  onMounted,nextTick,ref} from "vue";
+import {  onMounted,nextTick} from "vue";
 import { useFollowupDetail } from "./followup-detail";
 import 'viewerjs/dist/viewer.css'
 import Viewer from "ice-vue-viewer/src/component.vue"
@@ -314,6 +315,7 @@ onMounted(() => {
     }
   });
 });
+
 const toggle=(pic)=> {
       console.log(pic)
       pic.fullscreen=!pic.fullscreen

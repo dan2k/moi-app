@@ -77,7 +77,7 @@
         <div class="form-row">
           <div class="col-12 mx-auto">
             <viewer  
-            :options="{}"
+            :options="{navbar:pics.map((ob,i)=>`${JOBIMAGE}${ob.pic_name}`).length>1}"
               :images="pics.map((ob,i)=>`${JOBIMAGE}${ob.pic_name}`)"
               class="viewer text-center" 
             >
@@ -102,7 +102,7 @@
             <div class="row">
               <div class="col-12 mx-auto">
                 <viewer  
-                :options="{}"
+                :options="{navbar:c.pics.map((ob,i)=>`${COMMENTIMAGE}${ob.pic_name}`).length>1}"
                   :images="c.pics.map((ob,i)=>`${COMMENTIMAGE}${ob.pic_name}`)"
                   class="viewer text-center" 
                   
