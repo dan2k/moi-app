@@ -99,7 +99,7 @@
           <div class="card-body">
             <div class="float-right" style="font-size: 12px">
               ความคิดเห็นที่ {{ index + 1 }} 
-              <span v-if="empid==c.comment_add_user" @click="del(c.comment_id)" style="color:red;cursor:poiniter;" class="material-icons-outlined">delete</span>
+              <span v-if="empid==c.comment_add_user" @click="del(c.comment_id)" style="color:red;cursor:pointer;" class="material-icons-outlined">delete</span>
             </div>
             <br />
             <div style="font-size: 14px; text-indent: 20px"><pre>{{ c.comment_desc }}</pre></div>
