@@ -71,7 +71,7 @@
         <div class="form-row" v-if="job.job_csvno">
           <div class="col-12 col-md-12">
             <span class="title">CSV NO:</span
-            ><span class="detail">{{ job.job_csvno }}</span>
+            ><span class="detail" ><pre>{{ job.job_csvno }}</pre></span>
           </div>
         </div>
         <div class="form-row">
@@ -98,7 +98,7 @@
               ความคิดเห็นที่ {{ index + 1 }}
             </div>
             <br />
-            <div style="font-size: 14px; text-indent: 20px">{{ c.comment_desc }}</div>
+            <div style="font-size: 14px; text-indent: 20px"><pre>{{ c.comment_desc }}</pre></div>
             <div class="row">
               <div class="col-12 mx-auto">
                 <viewer  
