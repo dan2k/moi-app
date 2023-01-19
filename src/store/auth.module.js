@@ -12,6 +12,7 @@ export const auth = {
 			accessToken: null,
 			refreshToken: null,
 		},
+		followStatus:-1,
 		
 	}),
 	mutations: {
@@ -35,7 +36,11 @@ export const auth = {
 		},
 		toggleIsAll(state){
 			state.isAll=!state.isAll;
+		},
+		setFollowStatus(state,value){
+			state.followStatus=value
 		}
+
 	},
 	actions: {
 		async login({ commit, dispatch }, payload) {
@@ -69,6 +74,9 @@ export const auth = {
 		},
 		logout: ({ commit }) => {
 			commit("logout");
+		},
+		followStatus:({commit},payload)=>{
+			commit('setFollowStatus',payload)
 		},
 		toggleIsAll:({commit})=>{
 			commit("toggleIsAll");

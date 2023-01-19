@@ -125,12 +125,13 @@
 </template>
 
 <script>
-import { reactive, onMounted, ref ,nextTick} from "vue";
+import { reactive, onMounted, ref ,nextTick,onUnmounted} from "vue";
 import VTable from "@/components/table/table.vue";
 import { useStore } from "vuex";
 import { api, errAlert, okAlert } from "@/helper";
 import { useRouter } from "vue-router";
 import { useFollowup } from "./followup";
+import audioUrl from "@/assets/beep-06.mp3"
 export default {
   components: {
     VTable,
@@ -139,34 +140,78 @@ export default {
     const store = useStore();
     const router = useRouter();
    let {status}=useFollowup();
+    status=status.map((ob,i)=>{
+      if(ob.status==store.state['auth'].followStatus){
+        ob.state=true
+      }else{
+        ob.state=false
+      }
+      return ob
+    })
     const state = reactive({
       status:status,
       data: [],
     });
-    onMounted(() => {
+    var audio = new Audio(audioUrl);
+    const auth = store.getters["auth/getAuthData"].user[0];
+    let section = "";
+    section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
+    let myInterval=null;
+    onMounted(async () => {
       // เอาไว้โชว์เมนูรับแจ้งเข้าเข้าเงื่อนไข
       nextTick(()=>{
         if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
           document.getElementById("ainform").click();
         }
       });
+      table.value.setFilter("job_status", "=", store.state['auth'].followStatus);
+      table.value.changePage(1);
+      await table.value.getData();
+      await table.value.getData();
+      //await getDataAll();
+      // audio.play();
+      setTimeout(()=>{
+        if(store.state['auth'].followStatus==3&&section==0){
+          //alert(store.state['auth'].followStatus)
+          // audio.play();
+          location.reload();
+        }
+      },30000)
+      myInterval = setInterval(()=>{
+        let rs=state.status.filter((ob,i)=>ob.status==3)
+        // console.log(rs)
+        if(store.state['auth'].followStatus==3 && section==0&&rs[0].count>0){
+          // console.log('yes')
+           audio.play()
+        }
+      }, 2000);
     });
+    onUnmounted(()=>{
+      clearInterval(myInterval);
+    })
     const setActive = async (status) => {
       state.status.map((it, i) => {
         it.state = it.status == status;
         return it;
       });
+      store.dispatch("auth/followStatus",status)
       table.value.setFilter("job_status", "=", status);
       table.value.changePage(1);
       await table.value.getData();
       await getDataAll();
+      //console.log(store.state['auth'].followStatus)
+      setTimeout(()=>{
+        if(store.state['auth'].followStatus==3 && section==0){
+          //alert(store.state['auth'].followStatus)
+          location.reload();
+        }
+      },30000)
+      
     };
 
     const table = ref();
     
-    const auth = store.getters["auth/getAuthData"].user[0];
-    let section = "";
-    section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
+    
     let u=store.getters["auth/getIsAll"]?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
     const url = ref(u);
     const columns = ref([
