@@ -121,11 +121,12 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
+  <audio ref="vedio" id="vedio" style="display:none;" muted="muted" autoplay :src="audioUrl">
+  </audio>
 </template>
 
 <script>
-import { reactive, onMounted, ref ,nextTick,onUnmounted} from "vue";
+import { reactive, onMounted, ref ,nextTick,onUnmounted,computed} from "vue";
 import VTable from "@/components/table/table.vue";
 import { useStore } from "vuex";
 import { api, errAlert, okAlert } from "@/helper";
@@ -137,6 +138,8 @@ export default {
     VTable,
   },
   setup() {
+    const vedio=ref(null)
+   
     const store = useStore();
     const router = useRouter();
    let {status}=useFollowup();
@@ -152,7 +155,6 @@ export default {
       status:status,
       data: [],
     });
-    var audio = new Audio(audioUrl);
     const auth = store.getters["auth/getAuthData"].user[0];
     let section = "";
     section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
@@ -166,23 +168,23 @@ export default {
       });
       table.value.setFilter("job_status", "=", store.state['auth'].followStatus);
       table.value.changePage(1);
+      //setActive(store.state['auth'].followStatus)
+      //setActive(store.state['auth'].followStatus)
       await table.value.getData();
       await table.value.getData();
-      //await getDataAll();
-      // audio.play();
+      
+      
       setTimeout(()=>{
         if(store.state['auth'].followStatus==3&&section==0){
-          //alert(store.state['auth'].followStatus)
-          // audio.play();
           location.reload();
         }
       },30000)
-      myInterval = setInterval(()=>{
+      myInterval = setInterval(async ()=>{
         let rs=state.status.filter((ob,i)=>ob.status==3)
-        // console.log(rs)
         if(store.state['auth'].followStatus==3 && section==0&&rs[0].count>0){
-          // console.log('yes')
-           audio.play()
+          console.log('yes')
+          vedio.value.muted=false;
+          await vedio.value.play()  
         }
       }, 2000);
     });
@@ -402,6 +404,8 @@ export default {
       url,
       section,
       store,
+      audioUrl,
+      vedio,
     };
   },
 };
