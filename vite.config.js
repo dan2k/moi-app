@@ -24,15 +24,15 @@ export default defineConfig(async ({ command, mode }) => {
     //       rewrite: (path) => path.replace(/^\/api/, '')
     //     },
     //   },
-	  proxy: {
-		"/api": {
-			// target: "http://localhost/vue3-1/moi-app/server",
-			// target: "https://www.controldata.co.th/mpsicc/moi-app/server",
-			target: env.VITE_PRIVATE_API_URL,
-			changeOrigin: true,
-			rewrite: (path) => path.replace(/^\/api/, ""),
-			},
-		},
+      proxy: {
+        "/api": {
+          // target: "http://localhost/vue3-1/moi-app/server",
+          // target: "https://www.controldata.co.th/mpsicc/moi-app/server",
+          target: env.VITE_PRIVATE_API_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+      },
     },
     build:{
       sourcemap: false,
