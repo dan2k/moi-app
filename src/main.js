@@ -20,6 +20,9 @@ const app = createApp(App);
 app.component('Loading',Loading);
 app.use(VueSweetalert2);
 window.Swal =  app.config.globalProperties.$swal;
+window.onload = function() {
+    var context = new AudioContext();
+}
 app.use(store);
 app.use(FileUpload,{size:300})
 app.use(Maska);

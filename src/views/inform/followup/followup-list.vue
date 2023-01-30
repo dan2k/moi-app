@@ -121,7 +121,11 @@
       </div>
     </div>
   </div>
-  <audio ref="vedio" id="vedio" style="display:none;" muted="muted" autoplay :src="audioUrl">
+  
+  <audio controls autoplay ref="vedio" style="display:none;" muted>
+    <source :src="audioUrl" type="audio/mpeg">
+    <!-- <source src="horse.mp3" type="audio/mpeg"> -->
+    Your browser does not support the audio element.
   </audio>
 </template>
 
@@ -162,14 +166,17 @@ export default {
     onMounted(async () => {
       // เอาไว้โชว์เมนูรับแจ้งเข้าเข้าเงื่อนไข
       nextTick(()=>{
-        if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
-          document.getElementById("ainform").click();
+        try{
+
+          if (document.getElementById("ainform").getAttribute("aria-expanded") == "false") {
+            document.getElementById("ainform").click();
+          }
+        }catch(err){
+          //
         }
       });
       table.value.setFilter("job_status", "=", store.state['auth'].followStatus);
       table.value.changePage(1);
-      //setActive(store.state['auth'].followStatus)
-      //setActive(store.state['auth'].followStatus)
       await table.value.getData();
       await table.value.getData();
       
@@ -179,15 +186,20 @@ export default {
           location.reload();
         }
       },30000)
-      myInterval = setInterval(async ()=>{
+      
+    });
+    myInterval = setInterval(async ()=>{
         let rs=state.status.filter((ob,i)=>ob.status==3)
         if(store.state['auth'].followStatus==3 && section==0&&rs[0].count>0){
           console.log('yes')
-          vedio.value.muted=false;
-          await vedio.value.play()  
+          try{
+            vedio.value.muted=false;
+            vedio.value.play()  
+          }catch(err){
+            console.log(err)
+          }
         }
-      }, 2000);
-    });
+    }, 2000);
     onUnmounted(()=>{
       clearInterval(myInterval);
     })
