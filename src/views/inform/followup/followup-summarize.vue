@@ -7,6 +7,12 @@
             <text-area label="รายละเอียด:" :v="v.detail" rows="5"></text-area>
           </div>
         </div>
+        <div class="form-row">
+          <input class="form-check-input" type="checkbox" v-model="isSend" id="isSend">
+          <label class="form-check-label" for="isSend">
+            ส่งกลับเพื่อตรวจสอบ 
+          </label>
+        </div>
 
         <div class="form-row">
           <div class="col-12 text-center">
@@ -53,6 +59,7 @@ const detail = ref(null);
 const rules = {
   detail: { required: helpers.withMessage("ห้ามเป็นค่าว่าง", required) },
 };
+const isSend=ref(false)
 const v = useVuelidate(rules, { detail });
 const submit = async () => {
   v.value.$touch();
@@ -63,7 +70,7 @@ const submit = async () => {
       detail: detail.value,
       empid,
       jobid: route.params.jobid,
-
+      isSend:isSend.value,
     });
 
     okAlert(rs.data.msg, () => {
