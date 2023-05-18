@@ -1,8 +1,92 @@
 <template>
   <div class="jumbotron mx-2 py-2">
     <div class="container">
-      <div class="row justify-content-center" style="font-size: 12px">
-        <div
+      <!-- <div class="row justify-content-center" style="font-size: 12px"> -->
+      <div class="row" style="font-size: 12px">
+        <div class="col-md-5">
+          สถานะ: <vue-select
+							v-model="vstatus"
+							:options="state.status"
+							label-by="desc"
+							value-by="status"
+							:searchable="true"
+							:close-on-select="true"
+							:clear-on-close="true"
+							:clear-on-select="true"
+							placeholder="เลือก"
+							search-placeholder="ค้นหา"
+              @update:modelValue="setActive2"
+						>
+              <template #dropdown-item="{ option }">
+                <div :style="{color:option.color}">{{ option.title }} ({{ option.count }})</div>
+              </template>
+            </vue-select>
+        </div>
+        <div class="col-md-5">
+          ระบบงาน:
+          <vue-select
+							v-model="app_gid"
+							:options="optionGroup"
+							label-by="label"
+							value-by="id"
+							:searchable="true"
+							:close-on-select="true"
+							:clear-on-close="true"
+							:clear-on-select="true"
+							placeholder="เลือก"
+							search-placeholder="ค้นหา"
+							@update:modelValue="getSub1"
+						></vue-select>
+        </div>
+        <div class="col-md-5">
+          โปรแกรม:
+          <vue-select
+							v-model="app_sub1_id"
+							:options="optionSub1"
+							label-by="label"
+							value-by="id"
+							:searchable="true"
+							:close-on-select="true"
+							:clear-on-close="true"
+							:clear-on-select="true"
+							placeholder="เลือก"
+							search-placeholder="ค้นหา"
+							@update:modelValue="getSub2"
+						></vue-select>
+        </div>
+        <div class="col-md-5">
+          เมนู:
+          <vue-select
+							v-model="app_sub2_id"
+							:options="optionSub2"
+							label-by="label"
+							value-by="id"
+							:searchable="true"
+							:close-on-select="true"
+							:clear-on-close="true"
+							:clear-on-select="true"
+							placeholder="เลือก"
+							search-placeholder="ค้นหา"
+							@update:modelValue="getSub3"
+						></vue-select>
+        </div>
+        <div class="col-md-5">
+          เมนูย่อย:
+          <vue-select
+							v-model="app_sub3_id"
+							:options="optionSub3"
+							label-by="label"
+							value-by="id"
+							:searchable="true"
+							:close-on-select="true"
+							:clear-on-close="true"
+							:clear-on-select="true"
+							placeholder="เลือก"
+							search-placeholder="ค้นหา"
+							@update:modelValue="setActive2"
+						></vue-select>
+        </div>
+        <!-- <div
           class="card mr-1 mb-1"
           style="width: 180px; cursor: pointer"
           v-for="(s, i) in state.status"
@@ -30,7 +114,7 @@
               <span style="font-size: 16px">รายการ</span>
             </span>
           </div>
-        </div>
+        </div> -->
         <div class="col-12">
           <button
             class="btn btn-primary mr-1 my-2 float-right"
@@ -137,13 +221,15 @@ import { api, errAlert, okAlert } from "@/helper";
 import { useRouter } from "vue-router";
 import { useFollowup } from "./followup";
 import audioUrl from "@/assets/beep-06.mp3"
+import VueSelect from "vue-next-select";
+import "vue-next-select/dist/index.min.css";
 export default {
   components: {
     VTable,
+    "vue-select": VueSelect,
   },
   setup() {
     const vedio=ref(null)
-   
     const store = useStore();
     const router = useRouter();
    let {status}=useFollowup();
@@ -176,10 +262,14 @@ export default {
         }
       });
       table.value.setFilter("job_status", "=", store.state['auth'].followStatus);
+      table.value.setFilter("app_gid", "=", app_gid.value);
+      table.value.setFilter("app_sub1_id", "=", app_sub1_id.value);
+      table.value.setFilter("app_sub2_id", "=", app_sub2_id.value);
+      table.value.setFilter("app_sub3_id", "=", app_sub3_id.value);
       table.value.changePage(1);
       await table.value.getData();
-      // await table.value.getData();
-      
+      await table.value.getData();
+      await getAppGroup();
       
       setTimeout(()=>{
         if(store.state['auth'].followStatus==3&&section==0){
@@ -210,6 +300,29 @@ export default {
       });
       store.dispatch("auth/followStatus",status)
       table.value.setFilter("job_status", "=", status);
+      table.value.changePage(1);
+      await table.value.getData();
+      await getDataAll();
+      //console.log(store.state['auth'].followStatus)
+      setTimeout(()=>{
+        if(store.state['auth'].followStatus==3 && section==0){
+          //alert(store.state['auth'].followStatus)
+          location.reload();
+        }
+      },30000)
+      
+    };
+    const setActive2 = async () => {
+      state.status.map((it, i) => {
+        it.state = it.status == vstatus.value;
+        return it;
+      });
+      store.dispatch("auth/followStatus",vstatus.value)
+      table.value.setFilter("job_status", "=", vstatus.value);
+      table.value.setFilter("app_gid", "=", app_gid.value);
+      table.value.setFilter("app_sub1_id", "=", app_sub1_id.value);
+      table.value.setFilter("app_sub2_id", "=", app_sub2_id.value);
+      table.value.setFilter("app_sub3_id", "=", app_sub3_id.value);
       table.value.changePage(1);
       await table.value.getData();
       await getDataAll();
@@ -356,13 +469,13 @@ export default {
     };
     const getDataAll = async () => {
       try {
-        let u=store.getters["auth/getIsAll"]?`/inform/v3/getDataAll`:`/inform/v2/getDataAll/${section}`;
+        let u=store.getters["auth/getIsAll"]?`/inform/v3/getDataAll/${app_gid.value}/${app_sub1_id.value}/${app_sub2_id.value}/${app_sub3_id.value}`:`/inform/v2/getDataAll/${section}/${app_gid.value}/${app_sub1_id.value}/${app_sub2_id.value}/${app_sub3_id.value}`;
         // let res = await api.post(`/inform/v2/getDataAll/${section}`, {
         let res = await api.post(u, {
           filters: table.value.getFilter(),
         });
         state.status.forEach((ob, i) => {
-          if (ob.status == -1) {
+          /* if (ob.status == -1) {
             return (ob.count = res.data.gstatus.reduce(
               (p, it) => Number(p) + Number(it.co),
               0
@@ -373,7 +486,22 @@ export default {
                 it.job_status == ob.status ? Number(p) + Number(it.co) : Number(p),
               0
             ));
+          } */
+          if (ob.status == -1) {
+            ob.count = res.data.gstatus.reduce(
+              (p, it) => Number(p) + Number(it.co),
+              0
+            )
+
+            
+          } else {
+            ob.count = res.data.gstatus.reduce(
+              (p, it) =>
+                it.job_status == ob.status ? Number(p) + Number(it.co) : Number(p),
+              0
+            )
           }
+          ob.desc=`${ob.title} (${ob.count})`
         });
       } catch (err) {
         errAlert(err);
@@ -397,6 +525,73 @@ export default {
         window.open(`${baseUrl}inform/followup/${row.job_id}/detail`)
       }
     };
+    const vstatus = ref(store.state['auth'].followStatus??-1);
+    const app_gid = ref(null);
+		const app_sub1_id = ref(null);
+		const app_sub2_id = ref(null);
+		const app_sub3_id = ref(null);
+		const optionGroup = ref([]);
+		const optionSub1 = ref([]);
+		const optionSub2 = ref([]);
+		const optionSub3 = ref([]);
+    const getAppGroup = async () => {
+			await api.get("/inform/v1/getAppGroup").then((res) => {
+				optionGroup.value = res.data.rows;
+			});
+		};
+    const getSub1 = async () => {
+			app_sub1_id.value = null;
+			app_sub2_id.value = null;
+			app_sub3_id.value = null;
+			optionSub1.value = [];
+			optionSub2.value = [];
+			optionSub3.value = [];
+			if (app_gid.value != "xxx") {
+				await api
+					.get(`/inform/v1/getSub1/${app_gid.value}`)
+					.then((res) => {
+						optionSub1.value = res.data.rows;
+					});
+			}
+			//loadData
+			console.log("by groups");
+			// await getLogBook();
+      await setActive2()
+		};
+
+		const getSub2 = async () => {
+			app_sub2_id.value = null;
+			app_sub3_id.value = null;
+			optionSub2.value = [];
+			optionSub3.value = [];
+			if (app_sub1_id.value != "xxx") {
+				await api
+					.get(
+						`/inform/v1/getSub2/${app_gid.value}/${app_sub1_id.value}`
+					)
+					.then((res) => {
+						optionSub2.value = res.data.rows;
+					});
+			}
+			console.log("by sub1");
+			// await getLogBook();
+      await setActive2()
+		};
+		const getSub3 = async () => {
+			app_sub3_id.value = null;
+			optionSub3.value = [];
+			if ((app_sub2_id.value1 = "xxx")) {
+				await api
+					.get(
+						`/inform/v1/getSub3/${app_gid.value}/${app_sub1_id.value}/${app_sub2_id.value}`
+					)
+					.then((res) => {
+						optionSub3.value = res.data.rows;
+					});
+			}
+			// await getLogBook();
+      await setActive2()
+		};
 
     return {
       state,
@@ -413,11 +608,24 @@ export default {
       select,
       unSelect,
       loadSuccess,
+      setActive2,
       url,
       section,
       store,
       audioUrl,
       vedio,
+      vstatus,
+      app_gid,
+      app_sub1_id,
+      app_sub2_id,
+      app_sub3_id,
+      optionGroup,
+      optionSub1,
+      optionSub2,
+      optionSub3,
+      getSub1,
+      getSub2,
+      getSub3,
     };
   },
 };
@@ -520,5 +728,8 @@ export default {
   60%  {transform: rotate(1deg) scaleY(1.04);}
   80%  {transform: rotate(-2deg) scaleY(0.92);}
   100% {transform: rotate(1deg);}
+}
+.vue-select {
+	width: auto;
 }
 </style>

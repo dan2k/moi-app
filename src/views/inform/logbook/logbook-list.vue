@@ -144,7 +144,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import VueNextSelect from "vue-next-select";
+import VueNextSelect from "vue-next-select"; 
 import "vue-next-select/dist/index.min.css";
 import VTable from "@/components/table/table.vue";
 import { api } from "@/helper/api";

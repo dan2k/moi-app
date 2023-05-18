@@ -139,6 +139,7 @@ export const useFollowup = () => {
       state: true,
       count: 0,
       status: -1,
+      desc:"",
     },
     {
       id: 1,
@@ -147,6 +148,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 99,
+      desc:"",
     },
     {
       id: 2,
@@ -155,6 +157,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 0,
+      desc:"",
     },
     // { id: 1, title: "ดำเนินการเรียบร้อยแล้ว" },
 
@@ -165,6 +168,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 4,
+      desc:"",
     },
     {
       id: 4,
@@ -173,6 +177,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 5,
+      desc:"",
     },
     {
       id: 5,
@@ -181,6 +186,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 3,
+      desc:"",
     },
     {
       id: 6,
@@ -189,6 +195,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 6,
+      desc:"",
     },
     {
       id: 7,
@@ -197,6 +204,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 7,
+      desc:"",
     },
     {
       id: 8,
@@ -205,6 +213,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 2,
+      desc:"",
     },
     {
       id: 9,
@@ -213,6 +222,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 8,
+      desc:"",
     },
     {
       id: 10,
@@ -221,6 +231,7 @@ export const useFollowup = () => {
       state: false,
       count: 0,
       status: 9,
+      desc:"",
     },
   ];
   return {

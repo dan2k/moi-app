@@ -3,7 +3,7 @@
 		<vue-select
 			v-bind="$attrs"
 			v-model="v.$model"
-			:options="obj"
+			:options="obj" 
 			label-by="label"
 			value-by="id"
 			:searchable="true"
