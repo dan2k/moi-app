@@ -129,7 +129,7 @@
   </audio>
 </template>
 
-<script>
+<script allowjs:true>
 import { reactive, onMounted, ref ,nextTick,onUnmounted,computed} from "vue";
 import VTable from "@/components/table/table.vue";
 import { useStore } from "vuex";
@@ -178,7 +178,7 @@ export default {
       table.value.setFilter("job_status", "=", store.state['auth'].followStatus);
       table.value.changePage(1);
       await table.value.getData();
-      await table.value.getData();
+      // await table.value.getData();
       
       
       setTimeout(()=>{
