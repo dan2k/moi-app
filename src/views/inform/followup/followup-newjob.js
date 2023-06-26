@@ -253,7 +253,7 @@ export const useFollowupNewJob = () => {
     formData.append("appsub1id", appsub1id.value ? appsub1id.value : "");
     formData.append("appsub2id", appsub2id.value ? appsub2id.value : "");
     formData.append("appsub3id", appsub3id.value ? appsub3id.value : "");
-    formData.append("piority", piority.value ? 1 : 0);
+    formData.append("piority", piority.value=="1" ? 1 : 0);
     formData.append("username", username.value);
     formData.append("tel", rawtel.value);
     let dt = datetime.value;
