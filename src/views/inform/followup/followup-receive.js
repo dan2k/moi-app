@@ -167,7 +167,7 @@ export const useFollowupReceive = () => {
     formData.append("appsub1id", appsub1id.value ? appsub1id.value : "");
     formData.append("appsub2id", appsub2id.value ? appsub2id.value : "");
     formData.append("appsub3id", appsub3id.value ? appsub3id.value : "");
-    formData.append("piority", piority.value.lenth > 0 ? 1 : 0);
+    formData.append("piority", piority.value ? 1 : 0);
     try {
       let rs = await api.post(`/inform/v2/receiveJob`, formData, {
         headers: {
