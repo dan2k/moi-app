@@ -144,6 +144,11 @@ const routes = [
 				name:"followup-testprogram",
 				component: () => import("../views/inform/followup/followup-testprogram.vue"),
 			},
+			{
+				path:":jobid/reportdev",
+				name:"followup-reportdev",
+				component: () => import("../views/inform/followup/followup-reportdev.vue"),
+			},
 		],
 		beforeEnter: beforeEnter,
 	},

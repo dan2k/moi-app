@@ -46,6 +46,7 @@ export const useFollowupNewJob = () => {
   const tel = ref(null);
   const rawtel = ref("");
   const datetime = ref(new Date());
+  const ref_jobid=ref(null);
 
   const rules = computed(function () {
     let tmp = {
@@ -61,6 +62,7 @@ export const useFollowupNewJob = () => {
       username: { required: helpers.withMessage("ห้ามเป็นค่าว่าง", required) },
       tel: { required: helpers.withMessage("ห้ามเป็นค่าว่าง", required) },
       datetime: { required: helpers.withMessage("ห้ามเป็นค่าว่าง", required) },
+      ref_jobid:{},
     };
     tmp.custptype = {
       required: helpers.withMessage("ห้ามเป็นค่าว่าง", required),
@@ -112,6 +114,7 @@ export const useFollowupNewJob = () => {
     username,
     tel,
     datetime,
+    ref_jobid,
   });
 
   const changePtype = async (opt) => {
@@ -183,6 +186,7 @@ export const useFollowupNewJob = () => {
       "username",
       "tel",
       "datetime",
+      "ref_jobid",
     ];
 
     state.forEach((k) => {
@@ -225,6 +229,8 @@ export const useFollowupNewJob = () => {
         case "datetime":
           datetime.value = null;
           break;
+        case "ref_jobid":
+          ref_jobid.value=null;
         default:
       }
     });
@@ -233,9 +239,27 @@ export const useFollowupNewJob = () => {
     files.value.length = 0;
     v.value.$reset();
   };
+  const ckjob= async (id)=>{
+    try{
+      let rs=await api.get(`/inform/v2/ckjob/${id}`);
+      return rs.data.status
+    }catch(err){
+      errAlert(err)
+      return false;
+    }
+    
+  }
   const submit = async () => {
     v.value.$touch();
     if (v.value.$error) return;
+    if(ref_jobid.value){
+      let ck=await ckjob(ref_jobid.value);
+      if(!ck){
+        //
+        errAlert('ไม่พบหมายเลขปัญหาที่ระบุ');
+        return;
+      }
+    }
     const formData = new FormData();
 
     //clear null objects
@@ -256,6 +280,7 @@ export const useFollowupNewJob = () => {
     formData.append("piority", piority.value=="1" ? 1 : 0);
     formData.append("username", username.value);
     formData.append("tel", rawtel.value);
+    formData.append("ref_jobid", ref_jobid.value);
     let dt = datetime.value;
     dt = `${dt.getFullYear()}-${padL(dt.getMonth() + 1)}-${padL(
       dt.getDate()

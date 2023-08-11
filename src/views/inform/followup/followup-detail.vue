@@ -66,6 +66,13 @@
             ><span :style="{ color: job.color }" class="detail">{{ job.status }}</span>
           </div>
         </div>
+        <div class="form-row" v-if="job.ref_jobid">
+          <div class="col-12 col-md-6">
+            <a class="title" >หมายเลขปัญหาอ้างอิง:</a
+            ><a class="detail" style="cursor:pointer;" @click="open(`/inform/followup/${job.ref_jobid}/detail`)">{{ job.ref_jobid }}</a>
+          </div>
+         
+        </div>
         <div class="form-row">
           <div class="col-12 col-md-12">
             <span class="title">รายละเอียด:</span
@@ -259,6 +266,17 @@
           "
         >
           ทดสอบโปรแกรม
+        </button>
+        <button
+          v-if="![1,99].includes(Number(job.job_status))"
+          class="btn btn-danger my-1 mr-1"
+          @click="
+            $router.replace({
+              path: `/inform/followup/${$route.params.jobid}/reportdev`,
+            })
+          "
+        >
+          แจ้ง DEV
         </button>
         <!-- {{`${placetype} ${job.job_status}`}} -->
       </div>

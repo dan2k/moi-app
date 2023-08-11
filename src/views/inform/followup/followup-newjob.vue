@@ -139,6 +139,10 @@
           <div class="col-12 col-md-4">
             <date-time label="วันเวลารับแจ้ง" :v="v.datetime"> </date-time>
           </div>
+          <Text
+              label="เลขที่ปัญหาอ้างอิง:"
+              :v="v.ref_jobid"
+            ></Text>
         </div>
         <div class="form-row">
           <div class="col-12 text-center">
