@@ -7,6 +7,7 @@ export const auth = {
 		isLogin: false,
 		isAll:true,
 		hello: {},
+		preUrl:null,
 		authData: {
 			user: null,
 			accessToken: null,
@@ -39,11 +40,14 @@ export const auth = {
 		},
 		setFollowStatus(state,value){
 			state.followStatus=value
+		},
+		setPreUrl(state,value){
+			state.preUrl=value;
 		}
 
 	},
 	actions: {
-		async login({ commit, dispatch }, payload) {
+		async login({ commit, dispatch,state }, payload) {
 			const response = await api
 				.post("/auth/v1/login", payload)
 				.catch((err) => {
@@ -60,7 +64,10 @@ export const auth = {
 				if (response.data.status) {
 					commit("saveTokenData", response.data);
 					commit("setLoginStatus", true);
-					router.replace({ path: "/" });
+				    let url=state.preUrl?state.preUrl:'/';
+					//console.log('url='+url)
+					router.replace({ path: url });
+					commit('setPreUrl',null);
 					return;
 				}
 				Swal.fire({
@@ -80,6 +87,9 @@ export const auth = {
 		},
 		toggleIsAll:({commit})=>{
 			commit("toggleIsAll");
+		},
+		setPREURL:({commit},payload)=>{
+			commit('setPreUrl',payload);
 		},
 		hello: async ({ commit }) => {
 			let res = await api.get("/auth/v1/hello").catch((err) => {
@@ -106,6 +116,10 @@ export const auth = {
 		},
 		getIsAll(state){
 			return state.isAll;
-		}
+		},
+		getPreUrl(state){
+			return state.preUrl;
+		},
+		
 	},
 };

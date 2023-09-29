@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "@/store/index.js";
-
+import {useRoute} from "vue-router";
 const obj = axios.create({
 	// baseURL: "https://www.controldata.co.th/mpsicc/moi-app/server/api",
 	baseURL: import.meta.env.VITE_AXIOS_BASE_URL,
@@ -36,6 +36,10 @@ obj.interceptors.response.use(
 				.catch(async (err) => {
 					//alert("xxx");
 					// console.log("err=>", err);
+					//console.log('x2='+window.location.pathname);
+					const route=useRoute();
+					console.log('x2='+route.path);
+					store.dispatch("auth/setPREURL",route.path);
 					await store.dispatch("auth/logout");
 				});
 			// alert(res.data.access_token);

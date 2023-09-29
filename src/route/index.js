@@ -25,6 +25,9 @@ async function beforeEnter(to, from, next) {
 		next();
 		return;
 	}
+	console.log(to.path);
+	store.dispatch("auth/setPREURL",to.path);
+	// console.log('preUrl='+store.getters["auth/getPreUrl"]);
 	next("/login");
 }
 const routes = [
