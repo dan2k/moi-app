@@ -1,6 +1,7 @@
 import axios from "axios";
 import store from "@/store/index.js";
 import {useRoute} from "vue-router";
+const route=useRoute();
 const obj = axios.create({
 	// baseURL: "https://www.controldata.co.th/mpsicc/moi-app/server/api",
 	baseURL: import.meta.env.VITE_AXIOS_BASE_URL,
@@ -30,16 +31,17 @@ obj.interceptors.response.use(
 	},
 	async (error) => {
 		const authData = store.getters["auth/getAuthData"];
+		console.log(error.response);
+		if(error.response.status==500 && error.response.data=='Expired token'){
+			console.log(store.getters["auth/getPreUrl"]);
+			await store.dispatch("auth/logout");
+			return false;
+			
+		}
 		if (error.response.status === 401) {
 			const res = await api
 				.post("/auth/v1/refresh", { token: authData.refreshToken })
 				.catch(async (err) => {
-					//alert("xxx");
-					// console.log("err=>", err);
-					//console.log('x2='+window.location.pathname);
-					const route=useRoute();
-					console.log('x2='+route.path);
-					store.dispatch("auth/setPREURL",route.path);
 					await store.dispatch("auth/logout");
 				});
 			// alert(res.data.access_token);
