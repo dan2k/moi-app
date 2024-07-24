@@ -79,6 +79,11 @@ const routes = [
 				name:"logbook-search",
 				component: () => import("../views/inform/logbook/logbook-search.vue"),
 			},
+			{
+				path:":jobid/comment",
+				name:"logbook-comment",
+				component: () => import("../views/inform/logbook/logbook-comment.vue"),
+			},
 		],
 		beforeEnter: beforeEnter,
 	},

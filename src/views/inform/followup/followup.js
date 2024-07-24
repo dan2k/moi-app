@@ -3,6 +3,7 @@ import { useStore } from "vuex";
 export const useFollowup = () => {
   const store = useStore();
   const auth = store.getters["auth/getAuthData"].user[0];
+  const deptid=auth.dept_id;
   const getJobDetail = async (jobid) => {
     try {
       let rs = await api.get(`/inform/v2/getJobDetail/${jobid}`);
@@ -49,7 +50,7 @@ export const useFollowup = () => {
   };
   const getCustpcode = async (custptype) => {
     try {
-      let rs = await api.get(`/inform/v2/getCustpcode/${custptype}`);
+      let rs = await api.get(`/inform/v3/getCustpcode/${custptype}`);
       return rs.data.data;
       // console.log(custpcodes.value);
     } catch (err) {
@@ -66,9 +67,27 @@ export const useFollowup = () => {
       errAlert(err);
     }
   };
+  const getCustpcode3 = async (custptype) => {
+    try {
+      let rs = await api.get(`/inform/v3/getCustpcode/${deptid}/${custptype}`);
+      return rs.data.data;
+      // console.log(custpcodes.value);
+    } catch (err) {
+      errAlert(err);
+    }
+  };
   const getAppGroup = async (user) => {
     try {
       let rs = await api.get(`/inform/v2/getAppGroup/${user}`);
+      return rs.data.data;
+      // console.log(custpcodes.value);
+    } catch (err) {
+      errAlert(err);
+    }
+  };
+  const getAppGroup2 = async (user) => {
+    try {
+      let rs = await api.get(`/inform/v4/getAppGroup/${deptid}/${user}`);
       return rs.data.data;
       // console.log(custpcodes.value);
     } catch (err) {
@@ -243,7 +262,9 @@ export const useFollowup = () => {
     getProvince,
     getCustpcode,
     getCustpcode2,
+    getCustpcode3,
     getAppGroup,
+    getAppGroup2,
     getSub1,
     getSub2,
     getSub3,

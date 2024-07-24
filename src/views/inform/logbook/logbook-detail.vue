@@ -96,6 +96,7 @@
           <div class="card-body">
             <div class="float-right" style="font-size: 12px">
               ความคิดเห็นที่ {{ index + 1 }}
+              <span v-if="empid==c.comment_add_user" @click="del(c.comment_id)" style="color:red;cursor:pointer;" class="material-icons-outlined">delete</span>
             </div>
             <br />
             <div style="font-size: 14px; text-indent: 0px;white-space:pre-wrap;">{{ c.comment_desc }}</div>
@@ -122,6 +123,14 @@
     </div>
     <div class="form-row">
           <div class="col-12 text-center">
+            <button
+              class="btn btn-primary my-1 mr-1"
+              @click="
+                $router.replace({ path: `/inform/logbook/${$route.params.jobid}/comment` })
+              "
+            >
+              comment
+            </button>
             <button 
                     v-if="job.satisfy1<1 && job.job_status==1" 
                     @click="open(`https://www.controldata.co.th/mpsicc/callcenter/client/followup/${$route.params.jobid}/satisfy`)"
@@ -171,8 +180,11 @@ import {nextTick,onMounted } from "vue";
 
 import 'viewerjs/dist/viewer.css'
 import Viewer from "ice-vue-viewer/src/component.vue"
+import { useFollowup } from "../followup/followup";
 
-const {comments,job,pics,open} =useFollowupDetail()
+const {auth}=useFollowup()
+const empid = auth.emp_id;
+const {comments,job,pics,del,open} =useFollowupDetail()
 const JOBIMAGE=import.meta.env.VITE_PRIVATE_JOBIMAGE;
 const COMMENTIMAGE=import.meta.env.VITE_PRIVATE_COMMENTIMAGE;
 onMounted(()=>{

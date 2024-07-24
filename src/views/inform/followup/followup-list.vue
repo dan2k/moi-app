@@ -120,7 +120,7 @@
             class="btn btn-primary mr-1 my-2 float-right"
             @click="
               store.dispatch('auth/toggleIsAll');
-              u=store.getters['auth/getIsAll']?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
+              u=store.getters['auth/getIsAll']?`/inform/v5/getData/${deptid}`:`/inform/v4/getData/${deptid}/${section}`;
               table.setUrl(u)
               table.getData();
               table.changePage(1);
@@ -139,6 +139,7 @@
             <i class="fas fa-sync-alt"></i>
           </button>
           <button
+            v-if="deptid!='DIB'"
             class="btn btn-primary mr-1 my-2 float-right"
             @click="$router.replace({ path: `/inform/followup/newjob` })"
           >
@@ -248,6 +249,7 @@ export default {
     const auth = store.getters["auth/getAuthData"].user[0];
     let section = "";
     section = auth.place_type == "R" ? auth.sect_id.substring(1, 2) : "0";
+    let deptid=auth.dept_id;
     let myInterval=null;
     onMounted(async () => {
       // เอาไว้โชว์เมนูรับแจ้งเข้าเข้าเงื่อนไข
@@ -268,7 +270,7 @@ export default {
       table.value.setFilter("app_sub3_id", "=", app_sub3_id.value);
       table.value.changePage(1);
       await table.value.getData();
-      await table.value.getData();
+      //await table.value.getData();
       await getAppGroup();
       
       setTimeout(()=>{
@@ -339,7 +341,7 @@ export default {
     const table = ref();
     
     
-    let u=store.getters["auth/getIsAll"]?`/inform/v3/getData`:`/inform/v2/getData/${section}`;
+    let u=store.getters["auth/getIsAll"]?`/inform/v5/getData/${deptid}`:`/inform/v4/getData/${deptid}/${section}`;
     const url = ref(u);
     const columns = ref([
       {
@@ -469,7 +471,7 @@ export default {
     };
     const getDataAll = async () => {
       try {
-        let u=store.getters["auth/getIsAll"]?`/inform/v3/getDataAll/${app_gid.value}/${app_sub1_id.value}/${app_sub2_id.value}/${app_sub3_id.value}`:`/inform/v2/getDataAll/${section}/${app_gid.value}/${app_sub1_id.value}/${app_sub2_id.value}/${app_sub3_id.value}`;
+        let u=store.getters["auth/getIsAll"]?`/inform/v5/getDataAll/${deptid}/${app_gid.value}/${app_sub1_id.value}/${app_sub2_id.value}/${app_sub3_id.value}`:`/inform/v4/getDataAll/${deptid}/${section}/${app_gid.value}/${app_sub1_id.value}/${app_sub2_id.value}/${app_sub3_id.value}`;
         // let res = await api.post(`/inform/v2/getDataAll/${section}`, {
         let res = await api.post(u, {
           filters: table.value.getFilter(),
@@ -535,7 +537,7 @@ export default {
 		const optionSub2 = ref([]);
 		const optionSub3 = ref([]);
     const getAppGroup = async () => {
-			await api.get("/inform/v1/getAppGroup").then((res) => {
+			await api.get(`/inform/v3/getAppGroup/${deptid}`).then((res) => {
 				optionGroup.value = res.data.rows;
 			});
 		};
@@ -611,6 +613,7 @@ export default {
       setActive2,
       url,
       section,
+      deptid,
       store,
       audioUrl,
       vedio,

@@ -12,7 +12,8 @@ export const useFollowupReceive = () => {
   const {
     getJobDetail,
     getPic,
-    getCustpcode,
+    getCustpcode3,
+    getAppGroup2,
     getAppGroup,
     getSub1,
     getSub2,
@@ -184,10 +185,10 @@ export const useFollowupReceive = () => {
   onMounted(async () => {
     job.value = await getJobDetail(route.params.jobid);
     pics.value = await getPic(route.params.jobid);
-    custpcodes.value = await getCustpcode(job.value.cust_ptype);
+    custpcodes.value = await getCustpcode3(job.value.cust_ptype);
     custpcode.value = job.value.cust_pcode;
     detail.value = job.value.job_desc;
-    appgroups.value = await getAppGroup(job.value.cust_user);
+    appgroups.value = await getAppGroup2(job.value.cust_user);
   });
   return {
     v,
