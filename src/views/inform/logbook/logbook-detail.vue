@@ -133,7 +133,7 @@
             </button>
             <button 
                     v-if="job.satisfy1<1 && job.job_status==1" 
-                    @click="open(`https://www.controldata.co.th/mpsicc/callcenter/client/followup/${$route.params.jobid}/satisfy`)"
+                    @click="open(`${callcenterURL}followup/${$route.params.jobid}/satisfy`)"
                     class="btn btn-primary btn-sm my-1 mx-1"
                 >ประเมินความพึงพอใจ(ลูกค้า)
                 </button>
@@ -181,7 +181,7 @@ import {nextTick,onMounted } from "vue";
 import 'viewerjs/dist/viewer.css'
 import Viewer from "ice-vue-viewer/src/component.vue"
 import { useFollowup } from "../followup/followup";
-
+const callcenterURL=import.meta.env.VITE_PRIVATE_CALLCENTER_URL;
 const {auth}=useFollowup()
 const empid = auth.emp_id;
 const {comments,job,pics,del,open} =useFollowupDetail()

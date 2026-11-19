@@ -29,7 +29,7 @@
           </div>
           <div class="col-12 col-md-12">
             <span class="title">Job URL:</span
-            ><span class="detail">http://www.controldata.co.th/mpsicc/moi-app/client/inform/followup/{{job.job_id}}/detail</span>
+            ><span class="detail">{{baseUrl}}inform/followup/{{job.job_id}}/detail</span>
           </div>
           
         </div>
@@ -83,6 +83,7 @@ const {
 
 const content=ref(null)
 const reference=ref(null)
+const baseUrl=import.meta.env.VITE_PRIVATE_BASE_URL
 const copy=()=>{
   const storage = document.createElement('textarea');
   storage.value = content.value.innerText;

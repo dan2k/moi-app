@@ -84,13 +84,13 @@
             <img
               v-for="(p, index) in pics"
               :key="index"
-              :src="`https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/jobs/${p.pic_name}`"
+              :src="`${jobImgUrl}${p.pic_name}`"
               class="img-thumbnail mx-1"
               alt="..."
               style="cursor: pointer; width: 150px; height: 150px"
               @click="
                 open(
-                  `https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/jobs/${p.pic_name}`
+                  `${jobImgUrl}${p.pic_name}`
                 )
               "
             />
@@ -166,6 +166,7 @@ import VSelect from "../../../components/form/SelectComponent2.vue";
 import CheckBox from "../../../components/form/CheckboxComponent.vue";
 import TextArea from "../../../components/form/TextAreaComponent.vue";
 import { useFollowupReceive } from "./followup-receive";
+const jobImgUrl=import.meta.env.VITE_PRIVATE_JOBIMAGE
 const {
   v,
   custpcodes,
