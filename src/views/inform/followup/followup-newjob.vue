@@ -93,23 +93,6 @@
             ></Text>
           </div>
         </div>
-        <!-- <div class="form-row">
-          <div class="col-12 text-center my-2">
-            <img
-              v-for="(p, index) in pics"
-              :key="index"
-              :src="`https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/jobs/${p.pic_name}`"
-              class="img-thumbnail mx-1"
-              alt="..."
-              style="cursor: pointer; width: 150px; height: 150px"
-              @click="
-                open(
-                  `https://www.controldata.co.th/mpsicc/callcenter/server/uploads/images/jobs/${p.pic_name}`
-                )
-              "
-            />
-          </div>
-        </div> -->
         <div class="form-row">
           <div class="col-12">
             <Upload :size="300" :fileTypes="['image/*']" ref="uf">
